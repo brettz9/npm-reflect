@@ -6,6 +6,7 @@
         "Unlicense"
     ],
     "permissive": [
+        "0BSD",
         "AFL-1.1",
         "AFL-1.2",
         "AFL-2.0",
