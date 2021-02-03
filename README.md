@@ -80,8 +80,16 @@ Supported properties:
  * `maxSizeBites` max size of downloaded packages in bites
  * `allowedLicenseTypes` what types of dependency licenses are accpetable for the package
 
-Supported types are `publicDomain`, `permissive`, `weaklyProtective`, `protective`, `networkProtective`, `uncategorized`.
+Supported types are `publicDomain`, `permissive`, `weaklyProtective`, `protective`, `networkProtective`, `useOrModifyProtective`, `uncategorized`.
 If you are not sure which license types are appropriate [check this artice](https://medium.com/@vovabilonenko/licenses-of-npm-dependencies-bacaa00c8c65).
+
+Note that `networkProtective` now includes the Parity licenses which refer to
+publishing "through a freely accessible distribution system widely used for
+similar source code".
+
+`useOrModifyProtective` was later added to categorize those which can only be
+used under certain conditions beyond any sharing requirements (e.g.,
+non-commercial use only and/or not being permitted to modify the code).
 
 ### Usage with yarn
 
