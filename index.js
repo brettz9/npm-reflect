@@ -2,6 +2,8 @@
 * @file main file
 */
 
+'use strict';
+
 const program = require('commander');
 const moment = require('moment');
 const inquirer = require('inquirer');
@@ -121,7 +123,6 @@ function installPackage(nameVersion) {
       process.exit(1);
     });
 }
-
 
 program.version(packageJson.version);
 program.description(packageJson.description);
