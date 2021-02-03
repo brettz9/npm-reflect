@@ -16,7 +16,8 @@
     "stats",
     "package"
   ],
-  "author": "",
+  "author": "Brett Zamir",
+  "contributors": [],
   "license": "(MIT AND Artistic-2.0)",
   "bin": {
     "npm-consider": "./bin/npm-consider.js"
