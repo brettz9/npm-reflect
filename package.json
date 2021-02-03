@@ -26,6 +26,9 @@
     "url": "https://github.com/delfrrr/npm-consider/issues"
   },
   "homepage": "https://github.com/delfrrr/npm-consider#readme",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
