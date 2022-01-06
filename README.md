@@ -103,6 +103,7 @@ If the project contains `yarn.lock` file, then `npm-reflect` will do `yarn add` 
  * `Weakly Protective` license have a restriction to how can it be linked and combined with other licenses
  * `Protective` or *Copyleft* dependency license requires a dependent module to have a free license, which prevents it from being proprietary
  * `Network Protective` same as *Protective* but also triggers with network interaction
+ * `Use or Modify Protective` Adds restrictions on usage (e.g., non-commercial) or against modifying code (restrictions which cause the license not to be considered "open source")
  * `Uncategorized` means that license was not found in a package info or was not categorised in terms of linking; feel free to contribute to license categorisation;
 
 **Note:** that even permissive licenses have some restrictions. Check the following slide and article to learn about license compatibility:
