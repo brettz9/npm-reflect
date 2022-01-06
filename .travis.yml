@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "node"
-  - "8.3"
-  - "10"
+  - "17"
+  - "16"
+  - "14"
   - "12"
 before_script: >
   node_version=$(node -v);

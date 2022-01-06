@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/delfrrr/npm-consider#readme",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=12.0.0"
   },
   "devDependencies": {
     "eslint": "^7.19.0",
