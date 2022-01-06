@@ -1,5 +1,5 @@
 {
-  "name": "npm-consider",
+  "name": "npm-reflect",
   "version": "1.7.0",
   "description": "Check npm package dependencies, stats and impact on your package before installing it",
   "main": "index.js",
@@ -18,7 +18,9 @@
     "package"
   ],
   "author": "Brett Zamir",
-  "contributors": [],
+  "contributors": [
+    "delfrrr"
+  ],
   "license": "(MIT AND Artistic-2.0)",
   "bin": {
     "npm-consider": "./bin/npm-consider.js"
