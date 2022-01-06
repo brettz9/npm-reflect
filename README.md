@@ -1,12 +1,12 @@
-# npm-consider
+# npm-reflect
 
 Check npm package dependencies size, licenses and impact on your package before installing it 🤔
 
-![npm-consider](https://i.imgur.com/eAQPbHL.gif)
+![npm-reflect](https://i.imgur.com/eAQPbHL.gif)
 
 If you like it, please, ⭐️ this repo!
 
-[![Build Status](https://travis-ci.org/delfrrr/npm-consider.svg?branch=master)](https://travis-ci.org/delfrrr/npm-consider)
+[![Build Status](https://travis-ci.org/brettz9/npm-reflect.svg?branch=master)](https://travis-ci.org/brettz9/npm-reflect)
 
 
 ## Features
@@ -24,17 +24,17 @@ If you like it, please, ⭐️ this repo!
 ## Installing
 
 ```
-npm install -g npm-consider
+npm install -g npm-reflect
 ```
 **Note:** this tool is more useful when your colleagues also use it 😉
 ## Usage
 
 **Add new dependency**
 
-`npm-consider` has similar arguments as `npm install`
+`npm-reflect` has similar arguments as `npm install`
 
 ```
-npm-consider install --save express
+npm-reflect install --save express
 ```
 The command recursively requests packages info from npm and builds dependencies graph. Size of the package determined via `HEAD` request to `tarball` download URL.
 
@@ -43,7 +43,7 @@ The command recursively requests packages info from npm and builds dependencies 
 When called without arguments in package directory it builds a dependency graph and calculates metrics for local package
 
 ```
-npm-consider install
+npm-reflect install
 ```
 
 **Using for automation and continuous integration**
@@ -65,14 +65,14 @@ You can specify maximum values of size and number as well as allowed license typ
 Once provided you can call
 
 ```
-npm-consider install --test
+npm-reflect install --test
 ```
 
-![npm-consider](https://i.imgur.com/eo4HbDb.gif)
+![npm-reflect](https://i.imgur.com/eo4HbDb.gif)
 
 If all limits are satisfied command will exit with `code=0`; otherwise `code=1`.
 
-Note: in this mode, `npm-consider` will not call `npm install` or `yarn install`.
+Note: in this mode, `npm-reflect` will not call `npm install` or `yarn install`.
 
 Supported properties:
 
@@ -93,11 +93,11 @@ non-commercial use only and/or not being permitted to modify the code).
 
 ### Usage with yarn
 
-If the project contains `yarn.lock` file, then `npm-consider` will do `yarn add` with corresponding options.
+If the project contains `yarn.lock` file, then `npm-reflect` will do `yarn add` with corresponding options.
 
 ### Licence type
 
-`npm-consider` calculates license type for every dependency. The type defines license policy for [linking as a librtary](https://en.wikipedia.org/wiki/Library_(computing)#Linking). Data collected from [Comparison of free and open-source software licenses](https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses) on Wikipedia.
+`npm-reflect` calculates license type for every dependency. The type defines license policy for [linking as a librtary](https://en.wikipedia.org/wiki/Library_(computing)#Linking). Data collected from [Comparison of free and open-source software licenses](https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses) on Wikipedia.
 
  * `Public Domain` and `Permissive` license allows you to do anything except sue the author
  * `Weakly Protective` license have a restriction to how can it be linked and combined with other licenses

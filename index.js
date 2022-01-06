@@ -124,7 +124,7 @@ function installPackage(nameVersion) {
 
 program.version(packageJson.version);
 program.description(packageJson.description);
-program.usage('npm-consider install <pkg>');
+program.usage('npm-reflect install <pkg>');
 
 if (!process.argv.slice(2).length) {
   program.outputHelp();

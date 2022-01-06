@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/delfrrr/npm-consider.git"
+    "url": "git+https://github.com/brettz9/npm-reflect.git"
   },
   "keywords": [
     "npm",
@@ -23,12 +23,12 @@
   ],
   "license": "(MIT AND Artistic-2.0)",
   "bin": {
-    "npm-consider": "./bin/npm-consider.js"
+    "npm-reflect": "./bin/index.js"
   },
   "bugs": {
-    "url": "https://github.com/delfrrr/npm-consider/issues"
+    "url": "https://github.com/brettz9/npm-reflect/issues"
   },
-  "homepage": "https://github.com/delfrrr/npm-consider#readme",
+  "homepage": "https://github.com/brettz9/npm-reflect#readme",
   "engines": {
     "node": ">=12.0.0"
   },
