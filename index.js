@@ -114,9 +114,7 @@ function installPackage(nameVersion) {
     })
     .then((packages) => {
       showQuickStats(packages);
-      return promptNextAction(
-        name, versionLoose, packages
-      );
+      return promptNextAction(name, versionLoose, packages);
     })
     .catch((e) => {
       console.error(e);
