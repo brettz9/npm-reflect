@@ -1,25 +1,37 @@
 'use strict';
 
 module.exports = {
-  extends: 'airbnb-base',
-  rules: {
-    'no-console': 0,
-    'prefer-const': ['error', {
-      destructuring: 'all'
-    }],
-    quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    'no-param-reassign': 0,
-    'comma-dangle': 0,
-    'arrow-body-style': 0,
-    'consistent-return': 0,
-    'no-mixed-operators': 0,
-    'array-callback-return': 0,
-    strict: ['error', 'global']
-  },
-  parserOptions: {
-    sourceType: 'script'
-  },
+  extends: 'ash-nazg/sauron-node-script-overrides',
   env: {
-    node: 'true'
+    browser: false,
+    node: true
+  },
+  settings: {
+    polyfills: [
+      'Object.assign',
+      'Promise',
+      'Promise.all',
+      'URL'
+    ]
+  },
+  rules: {
+    // Disable for now
+    'max-len': 'off',
+    'consistent-return': 'off',
+    'unicorn/no-process-exit': 'off',
+    'import/extensions': 'off',
+    'promise/no-nesting': 'off',
+    'promise/avoid-new': 'off',
+    'promise/prefer-await-to-then': 'off',
+    'promise/prefer-await-to-callbacks': 'off',
+    'promise/always-return': 'off',
+    'node/prefer-promises/fs': 'off',
+    'node/no-sync': 'off',
+    'node/no-process-env': 'off',
+
+    'jsdoc/check-line-alignment': ['error', 'never'],
+
+    // Should reenable and refactor so that only CLI file uses
+    'no-console': 'off'
   }
 };

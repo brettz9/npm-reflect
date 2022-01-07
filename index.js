@@ -1,6 +1,7 @@
+
 /**
-* @file main file
-*/
+ * @file main file
+ */
 
 'use strict';
 
@@ -21,10 +22,10 @@ const getInstallCommand = require(
 );
 
 /**
- * @param  {string} nameVersion
- * @return {object} name and version loose
+ * @param {string} nameVersion
+ * @returns {PlainObject} name and version loose
  */
-function parseName(nameVersion) {
+function parseName (nameVersion) {
   // TODO: check urls
   let nameVersionStr = String(nameVersion).trim();
   let scope = false;
@@ -39,15 +40,15 @@ function parseName(nameVersion) {
   if (scope) {
     name = `@${name}`;
   }
-  return { name, versionLoose };
+  return {name, versionLoose};
 }
 
 /**
- * @param  {string} command npm or yarn
- * @param  {string[]} args
- * @return {string[]} prompt choices
+ * @param {string} command npm or yarn
+ * @param {string[]} args
+ * @returns {string[]} prompt choices
  */
-function getChoices(command, args) {
+function getChoices (command, args) {
   return [
     `Install (${colors.bold(`${command} ${args.join(' ')}`)})`,
     `Impact`,
@@ -57,29 +58,31 @@ function getChoices(command, args) {
 }
 
 /**
- * @param  {string} name
- * @param  {string} versionLoose
- * @param  {Object} packages
+ * @param {string} name
+ * @param {string} versionLoose
+ * @param {PlainObject} packages
+ * @returns {Promise<void|*>} Recursive until exit
  */
-function promptNextAction(name, versionLoose, packages) {
-  return getInstallCommand().then(({ command, args }) => {
+function promptNextAction (name, versionLoose, packages) {
+  return getInstallCommand().then(({command, args}) => {
     const choices = getChoices(command, args);
     return inquirer.prompt({
       type: `list`,
       name: `next`,
       message: `What is next?`,
       choices
-    }).then(({ next }) => {
+    }).then(({next}) => {
       switch (choices.indexOf(next)) {
-        case 0:
-          exec(command, args);
-          return Promise.reject();
-        case 1:
-          return showImpact(name, versionLoose, packages);
-        case 2:
-          return showDetails(packages);
-        default:
-          process.exit(0);
+      case 0:
+        exec(command, args);
+        // eslint-disable-next-line no-throw-literal -- Using for exit
+        throw undefined;
+      case 1:
+        return showImpact(name, versionLoose, packages);
+      case 2:
+        return showDetails(packages);
+      default:
+        process.exit(0);
       }
     });
   }).then(() => {
@@ -92,11 +95,12 @@ function promptNextAction(name, versionLoose, packages) {
 }
 
 /**
- * install action
- * @param  {string} nameVersion package considering to install
+ * Install action.
+ * @param {string} nameVersion package considering to install
+ * @returns {void}
  */
-function installPackage(nameVersion) {
-  const { name, versionLoose } = parseName(nameVersion);
+function installPackage (nameVersion) {
+  const {name, versionLoose} = parseName(nameVersion);
   getPackageDetails(name, versionLoose)
     .then((packageStats) => {
       process.stdout.cursorTo(0);
@@ -109,7 +113,7 @@ function installPackage(nameVersion) {
         moment(packageStats.modified).fromNow()
       })\n`);
       return walkDependencies(
-        { [name]: versionLoose }
+        {[name]: versionLoose}
       );
     })
     .then((packages) => {
