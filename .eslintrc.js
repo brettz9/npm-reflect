@@ -29,9 +29,6 @@ module.exports = {
     'node/no-sync': 'off',
     'node/no-process-env': 'off',
 
-    'jsdoc/check-line-alignment': ['error', 'never'],
-
-    // Should reenable and refactor so that only CLI file uses
-    'no-console': 'off'
+    'jsdoc/check-line-alignment': ['error', 'never']
   }
 };

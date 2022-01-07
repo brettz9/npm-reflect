@@ -6,6 +6,7 @@
 
 - (breaking) refactor: change show* logging files to get\* string-returning
     files for easier testing and separation of concerns from CLI
+- feat: support pnpm
 
 ### Dev-impacting changes
 

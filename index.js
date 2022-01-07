@@ -1,3 +1,4 @@
+/* eslint-disable no-console -- Should reenable and refactor so that only CLI file uses */
 
 /**
  * @file main file
