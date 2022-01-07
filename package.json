@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
+    "example": "./bin/index.js install commander",
     "mocha": "mocha --require chai/register-expect",
     "nyc": "nyc --all npm run mocha",
     "test": "npm run lint && npm run nyc"
