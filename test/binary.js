@@ -6,7 +6,6 @@ const {execFile: ef} = require('child_process');
 const execFile = promisify(ef);
 const binFile = './bin/index.js';
 
-
 describe('Binary', function () {
   this.timeout(8000);
   it('should log help', async function () {

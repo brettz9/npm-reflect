@@ -129,6 +129,11 @@ function installPackage (nameVersion) {
     });
 }
 
+/**
+ * @param {string} pkg package considering to install
+ * @param {PlainObject} options Not in use
+ * @returns {void}
+ */
 function installPackageOrLocal (pkg, options) {
   if (pkg) {
     installPackage(pkg);
@@ -137,6 +142,8 @@ function installPackageOrLocal (pkg, options) {
   }
 }
 
+/* eslint-disable node/exports-style -- Allow multiple separate */
 exports.install = install;
 exports.installPackage = installPackage;
 exports.installPackageOrLocal = installPackageOrLocal;
+/* eslint-enable node/exports-style -- Allow multiple separate */
