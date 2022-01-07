@@ -1,14 +1,28 @@
 # CHANGES for `npm-reflect`
 
-# 1.1.0
+## 2.0.0 (unreleased)
 
-## User-impacting changes
+### User-impacting changes
+
+- (breaking) refactor: change show* logging files to get\* string-returning
+    files for easier testing and separation of concerns from CLI
+
+### Dev-impacting changes
+
+- chore: switch linting to ash-nazg
+- chore: switch to pnpm
+- chore: add example script
+- test: Adds some tests
+
+## 1.1.0
+
+### User-impacting changes
 
 - Enhancement: Add RPL 1.1 and RPL 1.5 to network protective
 
-# 1.0.0
+## 1.0.0
 
-## User-impacting changes
+### User-impacting changes
 
 - Fix: Handle ANDs
 - Fix: Treat UNLICENSED as special case for comparisons (so it is not
@@ -25,7 +39,7 @@
 - npm: Update `semver`, `spdx-correct`, and `spdx-satisfies` to latest major
     versions
 
-## Dev-impacting changes
+### Dev-impacting changes
 
 - Linting (ESLint): Apply per latest airbnb-base
 - Linting (ESLint): Add ignore file in conjunction with linting all by default

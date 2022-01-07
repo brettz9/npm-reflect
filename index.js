@@ -12,9 +12,9 @@ const colors = require('colors/safe');
 const packageJson = require('./package.json');
 const getPackageDetails = require('./lib/getPackageDetails');
 const walkDependencies = require('./lib/walkDependencies');
-const showImpact = require('./lib/showImpact');
-const showDetails = require('./lib/showDetails');
-const showQuickStats = require('./lib/showQuickStats');
+const getImpact = require('./lib/getImpact');
+const getDetails = require('./lib/getDetails');
+const getQuickStats = require('./lib/getQuickStats');
 const install = require('./lib/install');
 const exec = require('./lib/exec');
 const getInstallCommand = require(
@@ -78,9 +78,15 @@ function promptNextAction (name, versionLoose, packages) {
         // eslint-disable-next-line no-throw-literal -- Using for exit
         throw undefined;
       case 1:
-        return showImpact(name, versionLoose, packages);
+        return getImpact(name, versionLoose, packages).then((impact) => {
+          console.log(impact);
+        }).catch((error) => {
+          console.log(error);
+        });
       case 2:
-        return showDetails(packages);
+        console.log(getDetails(packages));
+        process.exit(0);
+        return;
       default:
         process.exit(0);
       }
@@ -117,7 +123,7 @@ function installPackage (nameVersion) {
       );
     })
     .then((packages) => {
-      showQuickStats(packages);
+      console.log(getQuickStats(packages));
       return promptNextAction(name, versionLoose, packages);
     })
     .catch((e) => {
