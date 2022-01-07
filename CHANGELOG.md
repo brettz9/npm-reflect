@@ -1,5 +1,11 @@
 # CHANGES for `npm-reflect`
 
+# 1.1.0
+
+## User-impacting changes
+
+- Enhancement: Add RPL 1.1 and RPL 1.5 to network protective
+
 # 1.0.0
 
 ## User-impacting changes
