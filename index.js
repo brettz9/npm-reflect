@@ -5,21 +5,18 @@
 
 'use strict';
 
-const program = require('commander');
 const moment = require('moment');
 const inquirer = require('inquirer');
 const colors = require('colors/safe');
-const packageJson = require('./package.json');
+
 const getPackageDetails = require('./lib/getPackageDetails');
 const walkDependencies = require('./lib/walkDependencies');
 const getImpact = require('./lib/getImpact');
 const getDetails = require('./lib/getDetails');
 const getQuickStats = require('./lib/getQuickStats');
-const install = require('./lib/install');
 const exec = require('./lib/exec');
-const getInstallCommand = require(
-  './lib/getInstallCommand'
-);
+const getInstallCommand = require('./lib/getInstallCommand');
+const install = require('./lib/install');
 
 /**
  * @param {string} nameVersion
@@ -132,26 +129,14 @@ function installPackage (nameVersion) {
     });
 }
 
-program.version(packageJson.version);
-program.description(packageJson.description);
-program.usage('npm-reflect install <pkg>');
-
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
+function installPackageOrLocal (pkg, options) {
+  if (pkg) {
+    installPackage(pkg);
+  } else {
+    install(options);
+  }
 }
 
-program.command(`install [pkg]`)
-  .alias(`i`)
-  .action((pkg, options) => {
-    if (pkg) {
-      installPackage(pkg);
-    } else {
-      install(options);
-    }
-  })
-  .option(`-S, --save`, `Save to dependencies`)
-  .option(`-D, --save-dev`, `Save to devDependencies`)
-  .option(`--production`, `Will not install modules listed in devDependencies`)
-  .option(`--test`, `Exit with code 1 if package limits like maxPackagesNumber or maxSizeBites exceeded`);
-
-program.parse(process.argv);
+exports.install = install;
+exports.installPackage = installPackage;
+exports.installPackageOrLocal = installPackageOrLocal;
