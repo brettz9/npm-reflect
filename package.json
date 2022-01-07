@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "mocha": "mocha --require chai/register-expect",
-    "nyc": "nyc npm run mocha",
+    "nyc": "nyc --all npm run mocha",
     "test": "npm run lint && npm run nyc"
   },
   "repository": {
@@ -33,6 +33,13 @@
   "homepage": "https://github.com/brettz9/npm-reflect#readme",
   "engines": {
     "node": ">=12.0.0"
+  },
+  "nyc": {
+    "exclude": [
+      ".eslintrc.js",
+      ".ncurc.js",
+      "test/**"
+    ]
   },
   "devDependencies": {
     "@brettz9/eslint-plugin": "^1.0.4",
