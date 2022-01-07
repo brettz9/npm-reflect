@@ -55,13 +55,15 @@ function getChoices (command, args) {
 }
 
 /**
+ * @param {PlainObject} options
+ * @param {string} nameVersion
  * @param {string} name
  * @param {string} versionLoose
  * @param {PlainObject} packages
  * @returns {Promise<void|*>} Recursive until exit
  */
-function promptNextAction (name, versionLoose, packages) {
-  return getInstallCommand().then(({command, args}) => {
+function promptNextAction (options, nameVersion, name, versionLoose, packages) {
+  return getInstallCommand(nameVersion, options).then(({command, args}) => {
     const choices = getChoices(command, args);
     return inquirer.prompt({
       type: `list`,
@@ -75,7 +77,7 @@ function promptNextAction (name, versionLoose, packages) {
         // eslint-disable-next-line no-throw-literal -- Using for exit
         throw undefined;
       case 1:
-        return getImpact(name, versionLoose, packages).then((impact) => {
+        return getImpact(options, name, versionLoose, packages).then((impact) => {
           console.log(impact);
         }).catch((error) => {
           console.log(error);
@@ -89,7 +91,7 @@ function promptNextAction (name, versionLoose, packages) {
       }
     });
   }).then(() => {
-    return promptNextAction(name, versionLoose, packages);
+    return promptNextAction(options, nameVersion, name, versionLoose, packages);
   }, (e) => {
     if (e) {
       throw e;
@@ -100,9 +102,10 @@ function promptNextAction (name, versionLoose, packages) {
 /**
  * Install action.
  * @param {string} nameVersion package considering to install
+ * @param {PlainObject} options
  * @returns {void}
  */
-function installPackage (nameVersion) {
+function installPackage (nameVersion, options) {
   const {name, versionLoose} = parseName(nameVersion);
   getPackageDetails(name, versionLoose)
     .then((packageStats) => {
@@ -121,7 +124,7 @@ function installPackage (nameVersion) {
     })
     .then((packages) => {
       console.log(getQuickStats(packages));
-      return promptNextAction(name, versionLoose, packages);
+      return promptNextAction(options, nameVersion, name, versionLoose, packages);
     })
     .catch((e) => {
       console.error(e);
@@ -136,7 +139,7 @@ function installPackage (nameVersion) {
  */
 function installPackageOrLocal (pkg, options) {
   if (pkg) {
-    installPackage(pkg);
+    installPackage(pkg, options);
   } else {
     install(options);
   }
