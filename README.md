@@ -17,7 +17,7 @@ If you like it, please, ⭐️ this repo!
 - calculates impact on current package
 - show a full dependency graph
 - analyses packages without downloading it
-- supports yarn
+- supports yarn and pnpm
 - analyzes local package
 - provides continuous integration (CI) mode
 
@@ -72,7 +72,8 @@ npm-reflect install --test
 
 If all limits are satisfied command will exit with `code=0`; otherwise `code=1`.
 
-Note: in this mode, `npm-reflect` will not call `npm install` or `yarn install`.
+Note: in this mode, `npm-reflect` will not call `npm install`, `pnpm install`,
+or `yarn install`.
 
 Supported properties:
 
@@ -93,7 +94,9 @@ non-commercial use only and/or not being permitted to modify the code).
 
 ### Usage with yarn
 
-If the project contains `yarn.lock` file, then `npm-reflect` will do `yarn add` with corresponding options.
+If the project contains `yarn.lock` file, then `npm-reflect` will do `yarn add`
+with corresponding options. Also supports `pnpm` usage if a `pnpm-lock.yaml`
+file is found.
 
 ### Licence type
 

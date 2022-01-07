@@ -42,7 +42,7 @@ function parseName (nameVersion) {
 }
 
 /**
- * @param {string} command npm or yarn
+ * @param {"npm"|"pnpm"|"yarn"} command
  * @param {string[]} args
  * @returns {string[]} prompt choices
  */
