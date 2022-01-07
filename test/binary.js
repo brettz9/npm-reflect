@@ -14,4 +14,11 @@ describe('Binary', function () {
       'Check npm package dependencies'
     );
   });
+
+  it('should log help (no args)', async function () {
+    const {stdout} = await execFile(binFile);
+    expect(stdout).to.contain(
+      'Check npm package dependencies'
+    );
+  });
 });
