@@ -1,0 +1,14 @@
+lockfileVersion: 5.3
+
+specifiers:
+  jamilih: ^0.54.0
+
+dependencies:
+  jamilih: 0.54.0
+
+packages:
+
+  /jamilih/0.54.0:
+    resolution: {integrity: sha512-x3rfmZhxocBFbowFbi79C+TtLxe3Bes0ypWly/RJvQ69ZkiLAlwX1kkDeDzpCXpwzXvg53FejVSbOveacB7NvQ==}
+    engines: {node: '>=10'}
+    dev: false
