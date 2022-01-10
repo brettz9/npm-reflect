@@ -142,7 +142,7 @@ function installPackageOrLocal (pkg, options) {
   if (pkg) {
     installPackage(pkg, options);
   } else {
-    install(options);
+    install(null, options);
   }
 }
 
