@@ -21,4 +21,14 @@ describe('Binary', function () {
       'Check npm package dependencies'
     );
   });
+
+  it('should execute test command', async function () {
+    this.timeout(50000);
+    const {stdout} = await execFile(binFile, ['install', '--test']);
+    expect(stdout).to.contain(
+      'Packages'
+    ).and.to.contain(
+      'size'
+    );
+  });
 });
