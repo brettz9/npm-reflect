@@ -37,6 +37,7 @@
   },
   "nyc": {
     "exclude": [
+      ".idea/**",
       ".eslintrc.js",
       ".ncurc.js",
       "test/**"
