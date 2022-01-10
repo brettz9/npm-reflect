@@ -63,74 +63,72 @@ function getChoices (command, args) {
  * @param {PlainObject} packages
  * @returns {Promise<void|*>} Recursive until exit
  */
-function promptNextAction (options, nameVersion, name, versionLoose, packages) {
-  return getInstallCommand(nameVersion, options).then(({command, args}) => {
+async function promptNextAction (options, nameVersion, name, versionLoose, packages) {
+  try {
+    const {command, args} = await getInstallCommand(nameVersion, options);
     const choices = getChoices(command, args);
-    return inquirer.prompt({
+    const {next} = await inquirer.prompt({
       type: `list`,
       name: `next`,
       message: `What is next?`,
       choices
-    }).then(({next}) => {
-      switch (choices.indexOf(next)) {
-      case 0:
-        exec(command, args);
-        // eslint-disable-next-line no-throw-literal -- Using for exit
-        throw undefined;
-      case 1:
-        return getImpact(options, name, versionLoose, packages).then((impact) => {
-          console.log(impact);
-        }).catch((error) => {
-          console.log(error);
-        });
-      case 2:
-        console.log(getDetails(packages));
-        process.exit(0);
-        return;
-      default:
-        process.exit(0);
-      }
     });
-  }).then(() => {
-    return promptNextAction(options, nameVersion, name, versionLoose, packages);
-  }, (e) => {
+    switch (choices.indexOf(next)) {
+    case 0:
+      exec(command, args);
+      // eslint-disable-next-line no-throw-literal -- Using for exit
+      throw undefined;
+    case 1: {
+      try {
+        const impact = await getImpact(options, name, versionLoose, packages);
+        console.log(impact);
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    } case 2:
+      console.log(getDetails(packages));
+      process.exit(0);
+      return;
+    default:
+      process.exit(0);
+    }
+  } catch (e) {
     if (e) {
       throw e;
     }
-  });
+  }
+  return await promptNextAction(options, nameVersion, name, versionLoose, packages);
 }
 
 /**
  * Install action.
  * @param {string} nameVersion package considering to install
  * @param {PlainObject} options
- * @returns {void}
+ * @returns {Promise<void>}
  */
-function installPackage (nameVersion, options) {
+async function installPackage (nameVersion, options) {
   const {name, versionLoose} = parseName(nameVersion);
-  getPackageDetails(name, versionLoose)
-    .then((packageStats) => {
-      process.stdout.cursorTo(0);
-      process.stdout.clearLine(1);
-      process.stdout.write(`${
-        colors.bold(
-          `${packageStats.name}@${packageStats.version}`
-        )
-      } (updated ${
-        moment(packageStats.modified).fromNow()
-      })\n`);
-      return walkDependencies(
-        {[name]: versionLoose}
-      );
-    })
-    .then((packages) => {
-      console.log(getQuickStats(packages));
-      return promptNextAction(options, nameVersion, name, versionLoose, packages);
-    })
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
-    });
+  try {
+    const packageStats = await getPackageDetails(name, versionLoose);
+    process.stdout.cursorTo(0);
+    process.stdout.clearLine(1);
+    process.stdout.write(`${
+      colors.bold(
+        `${packageStats.name}@${packageStats.version}`
+      )
+    } (updated ${
+      moment(packageStats.modified).fromNow()
+    })\n`);
+    const packages = await walkDependencies(
+      {[name]: versionLoose}
+    );
+    console.log(getQuickStats(packages));
+    return promptNextAction(options, nameVersion, name, versionLoose, packages);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 }
 
 /**
