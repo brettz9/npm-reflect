@@ -9,34 +9,50 @@ describe('`findPrefix`', function () {
     findPrefix('bad-directory', (err) => {
       expect(err).to.equal(null);
       done();
-    })
+    });
   });
 
   it('Returns root', function (done) {
     findPrefix('/', (err, path) => {
+      if (err) {
+        done(err);
+        return;
+      }
       expect(path).to.equal('/');
       done();
-    })
+    });
   });
 
   it('Returns path', function (done) {
     findPrefix(join(__dirname, 'fixtures'), (err, path) => {
+      if (err) {
+        done(err);
+        return;
+      }
       expect(basename(path)).to.equal('npm-reflect');
       done();
-    })
+    });
   });
 
   it('Walks up past `node_modules`', function (done) {
     findPrefix('/abc/node_modules', (err, path) => {
+      if (err) {
+        done(err);
+        return;
+      }
       expect(path).to.equal('/abc');
       done();
-    })
+    });
   });
 
   it('Walks up two directories past `node_modules`', function (done) {
     findPrefix('/abc/node_modules/node_modules', (err, path) => {
+      if (err) {
+        done(err);
+        return;
+      }
       expect(path).to.equal('/abc');
       done();
-    })
+    });
   });
 });
