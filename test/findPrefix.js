@@ -1,6 +1,6 @@
 'use strict';
 
-const {basename, join} = require('path');
+const {basename, join, resolve} = require('path');
 
 const findPrefix = require('../lib/findPrefix');
 
@@ -30,6 +30,25 @@ describe('`findPrefix`', function () {
         return;
       }
       expect(basename(path)).to.equal('npm-reflect');
+      done();
+    });
+  });
+
+  it('Returns Windows path', function (done) {
+    const {platform} = process;
+    Object.defineProperty(process, 'platform', { value: 'win32' });
+    require('path').resolve = (p) => p;
+
+    findPrefix('C:\\', (err, path) => {
+      if (err) {
+        Object.defineProperty(process, 'platform', { value: platform });
+        require('path').resolve = resolve;
+        done(err);
+        return;
+      }
+      expect(basename(path)).to.equal('C:\\');
+      Object.defineProperty(process, 'platform', { value: platform });
+      require('path').resolve = resolve;
       done();
     });
   });
