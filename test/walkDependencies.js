@@ -17,11 +17,23 @@ describe('`walkDependencies`', function () {
   });
   */
 
-  /*
-  it.only('Walks dependencies', async function () {
+  // This doesn't work when run with other tests
+  it.skip('Exits upon walking bad package', function (done) {
     this.timeout(30000);
-    expect(await walkDependencies({'a@bad@package': '1.0.0'})).to.deep.equal({
-    });
+
+    const {exit} = process;
+    let error;
+    Object.defineProperty(process, 'exit', {value (val) {
+      expect(val).to.equal(1);
+      Object.defineProperty(process, 'exit', {value: exit});
+      done();
+      // process.exit(0);
+    }});
+
+    // Cannot have async parent in Mocha so run in closure
+    // (async () => { await
+    walkDependencies({'a@bad@package': '1.0.0'});
+    //   done(new Error('Failed'));
+    // })();
   });
-  */
 });
