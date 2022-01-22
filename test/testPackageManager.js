@@ -18,6 +18,9 @@ describe('testPackageManager', function () {
     it('Reports false if yarn missing', async function () {
       process.chdir(join(__dirname, 'fixtures/pnpm-path'));
       expect(await testYarn()).to.equal(false);
+
+      process.chdir(join(__dirname, 'fixtures/npm-path'));
+      expect(await testYarn()).to.equal(false);
     });
   });
   describe('`testPnpm`', function () {
@@ -27,6 +30,9 @@ describe('testPackageManager', function () {
     });
     it('Reports false if pnpm missing', async function () {
       process.chdir(join(__dirname, 'fixtures/yarn-path'));
+      expect(await testPnpm()).to.equal(false);
+
+      process.chdir(join(__dirname, 'fixtures/npm-path'));
       expect(await testPnpm()).to.equal(false);
     });
   });
