@@ -23,7 +23,7 @@ describe('Binary', function () {
   });
 
   it('should execute test command', async function () {
-    this.timeout(50000);
+    this.timeout(150000);
     const {stdout} = await execFile(binFile, ['install', '--test']);
     expect(stdout).to.contain(
       'Packages'
