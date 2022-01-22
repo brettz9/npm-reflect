@@ -1,8 +1,9 @@
 'use strict';
 
-const {basename, join, resolve} = require('path');
-
+const pth = require('path');
 const findPrefix = require('../lib/findPrefix');
+
+const {basename, join, resolve} = pth;
 
 describe('`findPrefix`', function () {
   it('Does not err with bad directory', function (done) {
@@ -36,19 +37,19 @@ describe('`findPrefix`', function () {
 
   it('Returns Windows path', function (done) {
     const {platform} = process;
-    Object.defineProperty(process, 'platform', { value: 'win32' });
-    require('path').resolve = (p) => p;
+    Object.defineProperty(process, 'platform', {value: 'win32'});
+    pth.resolve = (p) => p;
 
     findPrefix('C:\\', (err, path) => {
       if (err) {
-        Object.defineProperty(process, 'platform', { value: platform });
-        require('path').resolve = resolve;
+        Object.defineProperty(process, 'platform', {value: platform});
+        pth.resolve = resolve;
         done(err);
         return;
       }
       expect(basename(path)).to.equal('C:\\');
-      Object.defineProperty(process, 'platform', { value: platform });
-      require('path').resolve = resolve;
+      Object.defineProperty(process, 'platform', {value: platform});
+      pth.resolve = resolve;
       done();
     });
   });

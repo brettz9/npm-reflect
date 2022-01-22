@@ -22,7 +22,6 @@ describe('`walkDependencies`', function () {
     this.timeout(30000);
 
     const {exit} = process;
-    let error;
     Object.defineProperty(process, 'exit', {value (val) {
       expect(val).to.equal(1);
       Object.defineProperty(process, 'exit', {value: exit});
