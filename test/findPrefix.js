@@ -1,9 +1,10 @@
-'use strict';
+import {fileURLToPath} from 'url';
+import pth from 'path';
+import findPrefix from '../lib/findPrefix.js';
 
-const pth = require('path');
-const findPrefix = require('../lib/findPrefix');
+const {dirname, basename, join, resolve} = pth;
 
-const {basename, join, resolve} = pth;
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('`findPrefix`', function () {
   it('Does not err with bad directory', function (done) {

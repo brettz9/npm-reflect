@@ -1,6 +1,4 @@
-'use strict';
-
-const getLocalPackage = require('../lib/getLocalPackage');
+import getLocalPackage from '../lib/getLocalPackage.js';
 
 describe('`getLocalPackage`', function () {
   it('Gets local package', async function () {

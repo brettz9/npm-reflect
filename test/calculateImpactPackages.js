@@ -1,12 +1,10 @@
-'use strict';
+import calculateImpactPackages from '../lib/calculateImpactPackages.js';
 
-const calculateImpactPackages = require('../lib/calculateImpactPackages');
+import argparseFixture from './fixtures/argparseFixture.js';
 
-const {
-  'lodash@3.10.1': lodashPackage
-} = require('./fixtures/argparse.js');
+import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 
-const spdxCorrectFixture = require('./fixtures/spdx-correct.js');
+const lodashPackage = argparseFixture['lodash@3.10.1'];
 
 describe('`calculateImpactPackages`', function () {
   it('Returns new item', function () {

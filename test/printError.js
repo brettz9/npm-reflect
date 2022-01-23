@@ -1,6 +1,4 @@
-'use strict';
-
-const printError = require('../lib/printError');
+import printError from '../lib/printError.js';
 
 describe('`printError`', function () {
   it('Prints a colored string if supplied a string', function (done) {

@@ -1,7 +1,9 @@
-'use strict';
+import {dirname, join} from 'path';
+import {fileURLToPath} from 'url';
 
-const {join} = require('path');
-const getInstallCommand = require('../lib/getInstallCommand');
+import getInstallCommand from '../lib/getInstallCommand.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const cwd = process.cwd();
 

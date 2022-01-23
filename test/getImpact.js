@@ -1,10 +1,10 @@
-'use strict';
+import {fileURLToPath} from 'url';
+import {join, dirname} from 'path';
 
-const {join} = require('path');
-const getImpact = require('../lib/getImpact');
+import getImpact from '../lib/getImpact.js';
+import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 
-const spdxCorrectFixture = require('./fixtures/spdx-correct.js');
-
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 
 describe('`getImpact`', function () {

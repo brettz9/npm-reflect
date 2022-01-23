@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-'use strict';
+import {readFileSync} from 'fs';
+import program from 'commander';
+import {installPackageOrLocal} from '../index.js';
 
-const program = require('commander');
-
-const packageJson = require('../package.json');
-const {installPackageOrLocal} = require('../index');
+const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
 
 program.version(packageJson.version);
 program.description(packageJson.description);

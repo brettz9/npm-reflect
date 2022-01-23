@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+const spdxCorrectFixture = {
   'spdx-correct@3.1.1': {
     dependencies: {
       'spdx-expression-parse': '^3.0.0',
@@ -48,3 +46,5 @@ module.exports = {
     versionLoose: '^3.0.0'
   }
 };
+
+export default spdxCorrectFixture;

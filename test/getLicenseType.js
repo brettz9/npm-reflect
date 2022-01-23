@@ -1,6 +1,4 @@
-'use strict';
-
-const getLicenseType = require('../lib/getLicenseType');
+import getLicenseType from '../lib/getLicenseType.js';
 
 describe('`getLicenseType`', function () {
   it('Gets "uncategorized" if unrecognized', function () {

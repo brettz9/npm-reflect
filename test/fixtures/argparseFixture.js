@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+const argparseFixture = {
   'argparse@1.0.0': {
     dependencies: {
       lodash: '^3.2.0',
@@ -35,3 +33,5 @@ module.exports = {
     versionLoose: '~1.0.2'
   }
 };
+
+export default argparseFixture;

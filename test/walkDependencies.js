@@ -1,8 +1,6 @@
-'use strict';
+import walkDependencies from '../lib/walkDependencies.js';
 
-const walkDependencies = require('../lib/walkDependencies');
-
-const argparseFixture = require('./fixtures/argparse.js');
+import argparseFixture from './fixtures/argparseFixture.js';
 
 describe('`walkDependencies`', function () {
   it('Walks dependencies', async function () {

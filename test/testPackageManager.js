@@ -1,8 +1,9 @@
-'use strict';
+import {dirname, join} from 'path';
+import {fileURLToPath} from 'url';
 
-const {join} = require('path');
+import {testYarn, testPnpm} from '../lib/testPackageManager.js';
 
-const {testYarn, testPnpm} = require('../lib/testPackageManager');
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const cwd = process.cwd();
 

@@ -4,10 +4,12 @@
 
 ### User-impacting changes
 
+- (breaking) refactor: Switch to ESM only
 - (breaking) refactor: change show* logging files to get\* string-returning
     files for easier testing and separation of concerns from CLI
 - feat: return `Promise` with `installPackage`
 - feat: support pnpm
+- feat: update filesize, commander, inquirer, cli-table3
 
 ### Dev-impacting changes
 

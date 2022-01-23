@@ -1,9 +1,7 @@
-'use strict';
+import getQuickStats from '../lib/getQuickStats.js';
 
-const getQuickStats = require('../lib/getQuickStats');
-
-const argparseFixture = require('./fixtures/argparse.js');
-const spdxCorrectFixture = require('./fixtures/spdx-correct.js');
+import argparseFixture from './fixtures/argparseFixture.js';
+import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 
 describe('`getQuickStats`', function () {
   it('Gets stats as string', function () {

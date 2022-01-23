@@ -1,6 +1,4 @@
-'use strict';
-
-const getLicenseStr = require('../lib/getLicenseStr');
+import getLicenseStr from '../lib/getLicenseStr.js';
 
 describe('`getLicenseStr`', function () {
   it('Gets string if supplied a string', function () {

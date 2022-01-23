@@ -1,8 +1,6 @@
-'use strict';
+import getDetails from '../lib/getDetails.js';
 
-const getDetails = require('../lib/getDetails.js');
-
-const spdxCorrectFixture = require('./fixtures/spdx-correct.js');
+import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 
 describe('`getDetails`', function () {
   it('Returns new item', function () {

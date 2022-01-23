@@ -1,7 +1,10 @@
 'use strict';
 
 module.exports = {
-  extends: 'ash-nazg/sauron-node-script-overrides',
+  extends: 'ash-nazg/sauron-node-overrides',
+  parserOptions: {
+    ecmaVersion: 2020
+  },
   env: {
     browser: false,
     node: true

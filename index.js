@@ -4,20 +4,18 @@
  * @file main file
  */
 
-'use strict';
+import moment from 'moment';
+import inquirer from 'inquirer';
+import colors from 'colors/safe.js';
 
-const moment = require('moment');
-const inquirer = require('inquirer');
-const colors = require('colors/safe');
-
-const getPackageDetails = require('./lib/getPackageDetails');
-const walkDependencies = require('./lib/walkDependencies');
-const getImpact = require('./lib/getImpact');
-const getDetails = require('./lib/getDetails');
-const getQuickStats = require('./lib/getQuickStats');
-const exec = require('./lib/exec');
-const getInstallCommand = require('./lib/getInstallCommand');
-const install = require('./lib/install');
+import getPackageDetails from './lib/getPackageDetails.js';
+import walkDependencies from './lib/walkDependencies.js';
+import getImpact from './lib/getImpact.js';
+import getDetails from './lib/getDetails.js';
+import getQuickStats from './lib/getQuickStats.js';
+import exec from './lib/exec.js';
+import getInstallCommand from './lib/getInstallCommand.js';
+import install from './lib/install.js';
 
 /**
  * @param {string} nameVersion
@@ -142,8 +140,4 @@ function installPackageOrLocal (pkg, options) {
   }
 }
 
-/* eslint-disable node/exports-style -- Allow multiple separate */
-exports.install = install;
-exports.installPackage = installPackage;
-exports.installPackageOrLocal = installPackageOrLocal;
-/* eslint-enable node/exports-style -- Allow multiple separate */
+export {install, installPackage, installPackageOrLocal};

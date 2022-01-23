@@ -1,6 +1,4 @@
-'use strict';
-
-const isProduction = require('../lib/isProduction');
+import isProduction from '../lib/isProduction.js';
 
 describe('`isProduction`', function () {
   it('Checks if is production (false)', async function () {

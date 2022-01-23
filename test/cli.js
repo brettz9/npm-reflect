@@ -1,7 +1,5 @@
-'use strict';
-
-const {promisify} = require('util');
-const {execFile: ef} = require('child_process');
+import {promisify} from 'util';
+import {execFile as ef} from 'child_process';
 
 const execFile = promisify(ef);
 const binFile = './bin/index.js';
