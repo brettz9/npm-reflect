@@ -58,12 +58,10 @@ function getChoices (command, args) {
 /**
  * @param {PlainObject} options
  * @param {string} nameVersion
- * @param {string} name
- * @param {string} versionLoose
  * @param {PlainObject} packages
  * @returns {Promise<void|*>} Recursive until exit
  */
-async function promptNextAction (options, nameVersion, name, versionLoose, packages) {
+async function promptNextAction (options, nameVersion, packages) {
   try {
     const {command, args} = await getInstallCommand(nameVersion, options);
     const choices = getChoices(command, args);
@@ -80,7 +78,7 @@ async function promptNextAction (options, nameVersion, name, versionLoose, packa
       throw undefined;
     case 1: {
       try {
-        const impact = await getImpact(options, name, versionLoose, packages);
+        const impact = await getImpact(options, packages);
         console.log(impact);
       } catch (error) {
         console.log(error);
@@ -98,7 +96,7 @@ async function promptNextAction (options, nameVersion, name, versionLoose, packa
       throw e;
     }
   }
-  return await promptNextAction(options, nameVersion, name, versionLoose, packages);
+  return await promptNextAction(options, nameVersion, packages);
 }
 
 /**
@@ -124,7 +122,7 @@ async function installPackage (nameVersion, options) {
       {[name]: versionLoose}
     );
     console.log(getQuickStats(packages));
-    return promptNextAction(options, nameVersion, name, versionLoose, packages);
+    return promptNextAction(options, nameVersion, packages);
   } catch (e) {
     console.error(e);
     process.exit(1);
