@@ -27,15 +27,26 @@ describe('`walkDependencies`', function () {
     })).to.deep.equal({});
   });
 
+  // This doesn't work with other tests
   describe.skip('Custom npmrc', function () {
     // Todo: Override process.exit
     this.timeout(30000);
     afterEach(() => {
       process.chdir(cwd);
     });
-    it('Exits with bad registry', async function () {
+    it('Exits with bad registry', function (done) {
       process.chdir(join(__dirname, 'fixtures/bad-npmrc'));
-      expect(await walkDependencies({argparse: '1.0.0'})).to.deep.equal({});
+
+      const exit = Object.getOwnPropertyDescriptor(process, 'exit');
+
+      Object.defineProperty(process, 'exit', {value (val) {
+        Object.defineProperty(process, 'exit', {value: exit});
+
+        expect(val).to.equal(1);
+        done();
+      }});
+
+      walkDependencies({argparse: '1.0.0'});
     });
   });
 
