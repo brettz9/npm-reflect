@@ -121,3 +121,8 @@ file is found.
 - **Impact** takes onto account already installed dependencies and shows relative impact. It behaves differently, depending on `--save` or `--save-dev` option. The second one takes into account already installed `dependencies` and `devDepenedencies`.
 - **Details** prints dependencies graph
 - **Skip** cancels `npm install`; no changes in your project will apply.
+
+### To-dos
+
+1. Investigate why `getPackageDetails` (e.g., as used by `walkDependencies`) is not getting
+    `size`

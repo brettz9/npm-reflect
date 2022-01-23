@@ -9,6 +9,8 @@ module.exports = {
   settings: {
     polyfills: [
       'Object.assign',
+      'Object.entries',
+      'Object.values',
       'Promise',
       'Promise.all',
       'URL'
