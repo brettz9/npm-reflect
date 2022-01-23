@@ -2,8 +2,7 @@
 
 module.exports = {
   reject: [
-    // Investigate
-    'filesize',
+    // ESM
     'node-fetch'
   ]
 };
