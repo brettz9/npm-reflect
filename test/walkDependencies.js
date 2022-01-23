@@ -1,11 +1,42 @@
+import {dirname, join} from 'path';
+import {fileURLToPath} from 'url';
+
 import walkDependencies from '../lib/walkDependencies.js';
 
 import argparseFixture from './fixtures/argparseFixture.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const cwd = process.cwd();
 
 describe('`walkDependencies`', function () {
   it('Walks dependencies', async function () {
     this.timeout(30000);
     expect(await walkDependencies({argparse: '1.0.0'})).to.deep.equal(argparseFixture);
+  });
+
+  it('Walks past unrecognized host', async function () {
+    expect(await walkDependencies({
+      jamilih: 'https://unrecognized.example.com/jamilih'
+    })).to.deep.equal({});
+  });
+
+  it('Walks past 404 GitHub URL', async function () {
+    expect(await walkDependencies({
+      jamilih: 'https://github.com/brettz9/nonexistent'
+    })).to.deep.equal({});
+  });
+
+  describe.skip('Custom npmrc', function () {
+    // Todo: Override process.exit
+    this.timeout(30000);
+    afterEach(() => {
+      process.chdir(cwd);
+    });
+    it('Exits with bad registry', async function () {
+      process.chdir(join(__dirname, 'fixtures/bad-npmrc'));
+      expect(await walkDependencies({argparse: '1.0.0'})).to.deep.equal({});
+    });
   });
 
   /*
