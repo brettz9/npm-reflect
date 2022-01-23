@@ -125,4 +125,4 @@ file is found.
 ### To-dos
 
 1. Investigate why `getPackageDetails` (e.g., as used by `walkDependencies`) is not getting
-    `size`
+    `size` (apparently `content-length` header is missing for `fetch` response on octet-stream)
