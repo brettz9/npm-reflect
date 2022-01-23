@@ -68,9 +68,9 @@
   "dependencies": {
     "cli-table3": "^0.6.1",
     "colors": "^1.4.0",
-    "commander": "^2.20.3",
+    "commander": "^8.3.0",
     "filesize": "^3.6.1",
-    "inquirer": "^3.3.0",
+    "inquirer": "^8.2.0",
     "moment": "^2.29.1",
     "node-fetch": "^1.7.3",
     "promise-queue": "^2.2.5",

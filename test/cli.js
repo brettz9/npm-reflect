@@ -6,7 +6,7 @@ const {execFile: ef} = require('child_process');
 const execFile = promisify(ef);
 const binFile = './bin/index.js';
 
-describe('Binary', function () {
+describe('CLI', function () {
   this.timeout(8000);
   it('should log help', async function () {
     const {stdout} = await execFile(binFile, ['-h']);
@@ -17,6 +17,7 @@ describe('Binary', function () {
 
   it('should log help (no args)', async function () {
     const {stdout} = await execFile(binFile);
+
     expect(stdout).to.contain(
       'Check npm package dependencies'
     );

@@ -15,7 +15,11 @@ if (!process.argv.slice(2).length) {
   program.outputHelp();
 }
 
-program.command(`install [pkg]`)
+program.command('help', {isDefault: true})
+  .action(() => {
+    program.help();
+  })
+  .command(`install [pkg]`)
   .alias(`i`)
   .action(installPackageOrLocal)
   .option(`-S, --save`, `Save to dependencies`)
