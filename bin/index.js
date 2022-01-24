@@ -11,14 +11,9 @@ program.description(packageJson.description);
 program.usage('npm-reflect install <pkg>');
 
 if (!process.argv.slice(2).length) {
-  program.outputHelp();
+  program.help();
 }
-
-program.command('help', {isDefault: true})
-  .action(() => {
-    program.help();
-  })
-  .command(`install [pkg]`)
+program.command(`install [pkg]`)
   .alias(`i`)
   .action(installPackageOrLocal)
   .option(`-S, --save`, `Save to dependencies`)
