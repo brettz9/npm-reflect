@@ -3,6 +3,7 @@ import {join, dirname} from 'path';
 import inquirer from 'inquirer';
 
 import install from '../lib/install.js';
+import {brightBlackFG, defaultFG, greenFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log} = console;
@@ -52,11 +53,6 @@ describe('`install`', function () {
       exitCode = code;
     };
     await install('jamilih@0.54.0', {});
-
-    const brightBlackFG = '\u001B[90m';
-    const defaultFG = '\u001B[39m';
-    const greenFG = '\u001B[32m';
-    const space = '\u0020';
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(

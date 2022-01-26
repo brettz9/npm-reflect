@@ -1,14 +1,11 @@
 import getDetails from '../lib/getDetails.js';
 
+import {brightBlackFG, defaultFG, greenFG, redFG} from './utils/ansi.js';
 import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 
 describe('`getDetails`', function () {
   it('Returns new item', function () {
     const details = getDetails(spdxCorrectFixture);
-    const brightBlackFG = '\u001B[90m';
-    const greenFG = '\u001B[32m';
-    const defaultFG = '\u001B[39m';
-    const redFG = '\u001B[31m';
     expect(details).to.equal(
       `${brightBlackFG}┌─────────────────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬──────────────${defaultFG}${brightBlackFG}┬─────────────────────────${defaultFG}${brightBlackFG}┬───────────────────────────────┐${defaultFG}
 ${brightBlackFG}│${defaultFG}${redFG} Package                     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License                 ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies                  ${defaultFG}${brightBlackFG}│${defaultFG}
