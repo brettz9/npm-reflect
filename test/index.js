@@ -13,6 +13,8 @@ const {log, error} = console;
 const {exit} = process;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const cwd = process.cwd();
+
 /**
  * @param {string} promptValue
  * @returns {void}
@@ -41,6 +43,7 @@ describe('`index` installPackageOrLocal', function () {
   beforeEach(() => {
     CFG.npmConfig = undefined;
     CFG.packageDetailsCache = {};
+    process.chdir(cwd);
   });
   afterEach(() => {
     // eslint-disable-next-line no-console -- Spy
@@ -53,6 +56,7 @@ describe('`index` installPackageOrLocal', function () {
   after(() => {
     CFG.npmConfig = undefined;
     CFG.packageDetailsCache = {};
+    process.chdir(cwd);
   });
 
   it('Gets string table if supplied a string', async function () {

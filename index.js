@@ -54,7 +54,7 @@ function getChoices (command, args) {
 }
 
 /**
- * Exporting so can unit test
+ * Exporting so can unit test.
  * @param {PlainObject} options
  * @param {string} nameVersion
  * @param {PlainObject} packages
