@@ -85,9 +85,10 @@ async function promptNextAction (options, nameVersion, packages) {
     } case 2:
       console.log(getDetails(packages));
       process.exit(0);
-      return;
+      return; // Keep for unit testing when `exit` does not actually exit
     default:
       process.exit(0);
+      return; // Keep for unit testing when `exit` does not actually exit
     }
   } catch (e) {
     if (e) {
