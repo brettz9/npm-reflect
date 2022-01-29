@@ -62,4 +62,24 @@ Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG} $
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1${space}`
     );
   });
+
+  it('Logs error if package not found', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+    setPrompt('Details');
+    let val;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (obj) => {
+      val = obj;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await installPackageOrLocal('abadpackage@0.54.0', {});
+
+    expect(exitCode).to.equal(1);
+    expect(val.message).to.equal(
+      `Response is not ok  404 Not Found https://registry.npmjs.org/abadpackage`
+    );
+  });
 });
