@@ -130,14 +130,13 @@ async function installPackage (nameVersion, options) {
 /**
  * @param {string} pkg package considering to install
  * @param {PlainObject} options Not in use
- * @returns {void}
+ * @returns {Promise<void>}
  */
-function installPackageOrLocal (pkg, options) {
+async function installPackageOrLocal (pkg, options) {
   if (pkg) {
-    installPackage(pkg, options);
-  } else {
-    install(null, options);
+    return await installPackage(pkg, options);
   }
+  return await install(null, options);
 }
 
 export {install, installPackage, installPackageOrLocal};
