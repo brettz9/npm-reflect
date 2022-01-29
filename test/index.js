@@ -27,6 +27,7 @@ function setPrompt (promptValue) {
     expect(choices[0]).to.include('Install');
     expect(choices).to.include.members([
       'Details',
+      'Impact',
       'Skip'
     ]);
 
