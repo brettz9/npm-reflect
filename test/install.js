@@ -40,7 +40,7 @@ describe('`install`', function () {
     inquirer.prompt = prompt;
     process.exit = exit;
   });
-  it.skip('Gets string if supplied a string', async function () {
+  it('Gets string if supplied a string', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
     let val;

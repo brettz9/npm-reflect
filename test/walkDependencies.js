@@ -2,6 +2,7 @@ import {dirname, join} from 'path';
 import {fileURLToPath} from 'url';
 
 import walkDependencies from '../lib/walkDependencies.js';
+import {CFG} from '../lib/getPackageDetails.js';
 
 import argparseFixture from './fixtures/argparseFixture.js';
 
@@ -10,6 +11,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 
 describe('`walkDependencies`', function () {
+  beforeEach(() => {
+    CFG.npmConfig = undefined;
+    CFG.packageDetailsCache = {};
+  });
+  after(() => {
+    CFG.npmConfig = undefined;
+    CFG.packageDetailsCache = {};
+  });
+
   it('Walks dependencies', async function () {
     this.timeout(30000);
     expect(await walkDependencies({argparse: '1.0.0'})).to.deep.equal(argparseFixture);
@@ -28,7 +38,7 @@ describe('`walkDependencies`', function () {
   });
 
   // This doesn't work with other tests
-  describe.skip('Custom npmrc', function () {
+  describe('Custom npmrc', function () {
     // Todo: Override process.exit
     this.timeout(30000);
     afterEach(() => {
@@ -37,8 +47,12 @@ describe('`walkDependencies`', function () {
     it('Exits with bad registry', function (done) {
       process.chdir(join(__dirname, 'fixtures/bad-npmrc'));
 
-      const exit = Object.getOwnPropertyDescriptor(process, 'exit');
+      // Ensure will be forced to lazy-load fixture `.npmrc`
+      CFG.npmConfig = undefined;
+      // Ensure forced to get new details (erring ones now) for `getPackageDetails`
+      CFG.packageDetailsCache = {};
 
+      const {exit} = process;
       Object.defineProperty(process, 'exit', {value (val) {
         Object.defineProperty(process, 'exit', {value: exit});
 
@@ -58,7 +72,7 @@ describe('`walkDependencies`', function () {
   */
 
   // This doesn't work when run with other tests
-  it.skip('Exits upon walking bad package', function (done) {
+  it('Exits upon walking bad package', function (done) {
     this.timeout(30000);
 
     const {exit} = process;
