@@ -4,6 +4,7 @@ import {join, dirname} from 'path';
 import getImpact from '../lib/getImpact.js';
 import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 import jamilihFixture from './fixtures/jamilihFixture.js';
+import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
@@ -17,9 +18,6 @@ describe('`getImpact`', function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
 
     const impact = await getImpact({}, spdxCorrectFixture);
-    const brightBlackFG = '\u001B[90m';
-    const defaultFG = '\u001B[39m';
-    const space = '\u0020';
 
     expect(impact).to.equal(
       `Packages${space.repeat(1)}${brightBlackFG} ${defaultFG}4${space.repeat(10)}${brightBlackFG} ${defaultFG}+400.00%${space}
@@ -36,9 +34,6 @@ ${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brig
     const impact = await getImpact({
       saveDev: true
     }, spdxCorrectFixture);
-    const brightBlackFG = '\u001B[90m';
-    const defaultFG = '\u001B[39m';
-    const space = '\u0020';
 
     expect(impact).to.equal(
       `Packages${space.repeat(1)}${brightBlackFG} ${defaultFG}4${space.repeat(10)}${brightBlackFG} ${defaultFG}+400.00%${space}
@@ -53,9 +48,6 @@ ${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brig
     process.chdir(join(__dirname, 'fixtures/npm-path'));
 
     const impact = await getImpact({}, jamilihFixture);
-    const brightBlackFG = '\u001B[90m';
-    const defaultFG = '\u001B[39m';
-    const space = '\u0020';
 
     expect(impact).to.equal(
       `Packages${space.repeat(1)}${brightBlackFG} ${defaultFG}0${space.repeat(3)}${brightBlackFG} ${defaultFG}+0.00%${space}

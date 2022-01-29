@@ -1,5 +1,7 @@
 import printError from '../lib/printError.js';
 
+import {defaultFG, redFG} from './utils/ansi.js';
+
 const {error} = console;
 
 describe('`printError`', function () {
@@ -10,7 +12,7 @@ describe('`printError`', function () {
   it('Prints a colored string if supplied a string', function (done) {
     // eslint-disable-next-line no-console -- Spy
     console.error = (str) => {
-      expect(str).to.equal('\u001B[31mTest\u001B[39m');
+      expect(str).to.equal(`${redFG}Test${defaultFG}`);
       done();
     };
     printError('Test');
