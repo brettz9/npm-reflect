@@ -41,7 +41,6 @@ describe('`index` installPackageOrLocal', function () {
   this.timeout(80000);
 
   beforeEach(() => {
-    CFG.npmConfig = undefined;
     CFG.packageDetailsCache = {};
     process.chdir(cwd);
   });
@@ -54,7 +53,6 @@ describe('`index` installPackageOrLocal', function () {
     process.exit = exit;
   });
   after(() => {
-    CFG.npmConfig = undefined;
     CFG.packageDetailsCache = {};
     process.chdir(cwd);
   });
