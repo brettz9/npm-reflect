@@ -10,6 +10,7 @@
 - feat: return `Promise` with `installPackage`
 - feat: support pnpm
 - feat: update filesize, commander, inquirer, cli-table3
+- fix: prevent infinite loop with empty dependencies
 
 ### Dev-impacting changes
 
