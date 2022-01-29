@@ -4,9 +4,9 @@ import inquirer from 'inquirer';
 
 import spdxCorrectResults from './results/spdxCorrectResults.js';
 
-import {installPackageOrLocal} from '../index.js';
+import {installPackageOrLocal, promptNextAction} from '../index.js';
 import {CFG} from '../lib/getPackageDetails.js';
-import {brightBlackFG, defaultFG, greenFG, redFG} from './utils/ansi.js';
+import {brightBlackFG, defaultFG, greenFG, redFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log, error} = console;
@@ -117,5 +117,46 @@ ${brightBlackFG}└────────────────${defaultFG}$
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.equal(0);
     expect(details).to.equal(spdxCorrectResults);
+  });
+
+  it('Gets impact', async function () {
+    setPrompt('Impact');
+    let details;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      details = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+
+    await installPackageOrLocal('spdx-correct@3.1.1', {});
+    expect(exitCode).to.equal(undefined);
+    expect(details).to.equal(
+      // eslint-disable-next-line indent -- Readability
+`Packages ${brightBlackFG} ${defaultFG}0   ${brightBlackFG} ${defaultFG}+0.00%${space}
+Size     ${brightBlackFG} ${defaultFG}0 B ${brightBlackFG} ${defaultFG}+NaN%${space.repeat(2)}
+No new licenses${space.repeat(7)}`
+    );
+  });
+
+  it('Gives error on bad impact', async function () {
+    setPrompt('Impact');
+    let details;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      details = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+
+    await promptNextAction('abadpackage@0.54.0', {});
+    expect(exitCode).to.equal(undefined);
+    expect(details.message).to.equal(
+      `Cannot convert undefined or null to object`
+    );
   });
 });

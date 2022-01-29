@@ -54,6 +54,7 @@ function getChoices (command, args) {
 }
 
 /**
+ * Exporting so can unit test
  * @param {PlainObject} options
  * @param {string} nameVersion
  * @param {PlainObject} packages
@@ -140,4 +141,4 @@ async function installPackageOrLocal (pkg, options) {
   return await install(null, options);
 }
 
-export {install, installPackage, installPackageOrLocal};
+export {install, installPackage, installPackageOrLocal, promptNextAction};
