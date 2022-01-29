@@ -12,16 +12,6 @@ const spdxCorrectFixture = {
     version: '3.1.1',
     versionLoose: '3.1.1'
   },
-  'spdx-exceptions@2.3.0': {
-    dependencies: {},
-    license: 'CC-BY-3.0',
-    licenseType: 'permissive',
-    modified: '2020-04-20T22:39:44.559Z',
-    name: 'spdx-exceptions',
-    size: null,
-    version: '2.3.0',
-    versionLoose: '^2.1.0'
-  },
   'spdx-expression-parse@3.0.1': {
     dependencies: {
       'spdx-exceptions': '^2.1.0',
@@ -44,6 +34,16 @@ const spdxCorrectFixture = {
     size: null,
     version: '3.0.11',
     versionLoose: '^3.0.0'
+  },
+  'spdx-exceptions@2.3.0': {
+    dependencies: {},
+    license: 'CC-BY-3.0',
+    licenseType: 'permissive',
+    modified: '2020-04-20T22:39:44.559Z',
+    name: 'spdx-exceptions',
+    size: null,
+    version: '2.3.0',
+    versionLoose: '^2.1.0'
   }
 };
 

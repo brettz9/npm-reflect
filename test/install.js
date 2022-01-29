@@ -3,7 +3,8 @@ import {join, dirname} from 'path';
 import inquirer from 'inquirer';
 
 import install from '../lib/install.js';
-import {brightBlackFG, defaultFG, greenFG, space} from './utils/ansi.js';
+import {CFG} from '../lib/getPackageDetails.js';
+import {brightBlackFG, defaultFG, greenFG, redFG} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log} = console;
@@ -27,12 +28,17 @@ function setPrompt (promptValue) {
       'Skip'
     ]);
 
-    return promptValue;
+    return {next: promptValue};
   };
 }
 
 describe('`install`', function () {
   this.timeout(80000);
+
+  beforeEach(() => {
+    CFG.npmConfig = undefined;
+    CFG.packageDetailsCache = {};
+  });
 
   afterEach(() => {
     // eslint-disable-next-line no-console -- Spy
@@ -40,7 +46,13 @@ describe('`install`', function () {
     inquirer.prompt = prompt;
     process.exit = exit;
   });
-  it('Gets string if supplied a string', async function () {
+
+  after(() => {
+    CFG.npmConfig = undefined;
+    CFG.packageDetailsCache = {};
+  });
+
+  it('Gets details if supplied a name-version string', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
     let val;
@@ -56,10 +68,11 @@ describe('`install`', function () {
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(
-      // eslint-disable-next-line indent -- Readability
-`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
-Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
+      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
+${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated    ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
+${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a year ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
+${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`
     );
   });
 });
