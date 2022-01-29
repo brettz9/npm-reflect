@@ -11,6 +11,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 
 describe('`walkDependencies`', function () {
+  this.timeout(10000);
+
   beforeEach(() => {
     CFG.npmConfig = undefined;
     CFG.packageDetailsCache = {};
