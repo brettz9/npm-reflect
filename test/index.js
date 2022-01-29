@@ -2,7 +2,7 @@ import {fileURLToPath} from 'url';
 import {join, dirname} from 'path';
 import inquirer from 'inquirer';
 
-import spdxCorrectResults from './results/spdxCorrectResults.js';
+import {spdxCorrectResults1, spdxCorrectResults2} from './results/spdxCorrectResults.js';
 
 import {installPackageOrLocal, promptNextAction} from '../index.js';
 import {CFG} from '../lib/getPackageDetails.js';
@@ -118,7 +118,10 @@ ${brightBlackFG}└────────────────${defaultFG}$
 
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.equal(0);
-    expect(details).to.equal(spdxCorrectResults);
+    expect(details).to.be.oneOf([
+      spdxCorrectResults1,
+      spdxCorrectResults2
+    ]);
   });
 
   it('Gets impact', async function () {
