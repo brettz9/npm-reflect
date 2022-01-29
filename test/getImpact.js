@@ -2,6 +2,7 @@ import {fileURLToPath} from 'url';
 import {join, dirname} from 'path';
 
 import getImpact from '../lib/getImpact.js';
+import {CFG} from '../lib/getPackageDetails.js';
 import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';
 import jamilihFixture from './fixtures/jamilihFixture.js';
 import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
@@ -11,7 +12,12 @@ const cwd = process.cwd();
 
 describe('`getImpact`', function () {
   this.timeout(50000);
-  afterEach(() => {
+  beforeEach(() => {
+    CFG.packageDetailsCache = {};
+    process.chdir(cwd);
+  });
+  after(() => {
+    CFG.packageDetailsCache = {};
     process.chdir(cwd);
   });
   it('Returns info table with dependencies with new licenses', async function () {
