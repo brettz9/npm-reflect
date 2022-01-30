@@ -97,4 +97,26 @@ ${brightBlackFG}└────────────────${defaultFG}$
       'Cannot convert undefined or null to object'
     );
   });
+
+  it('Errs out on test mode and over the maximum', async function () {
+    process.chdir(join(__dirname, 'fixtures/has-config-path'));
+    setPrompt('Details');
+    let val;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (str) => {
+      val = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {
+      test: true
+    });
+
+    expect(exitCode).to.equal(1);
+    expect(val).to.equal(
+      `${redFG}Limits provided in package.json are not satisfied${defaultFG}`
+    );
+  });
 });
