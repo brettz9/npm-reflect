@@ -7,7 +7,7 @@ import {CFG} from '../lib/getPackageDetails.js';
 import {brightBlackFG, defaultFG, greenFG, redFG} from './utils/ansi.js';
 
 const {prompt} = inquirer;
-const {log} = console;
+const {log, error} = console;
 const {exit} = process;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -43,6 +43,8 @@ describe('`install`', function () {
   afterEach(() => {
     // eslint-disable-next-line no-console -- Spy
     console.log = log;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = error;
     inquirer.prompt = prompt;
     process.exit = exit;
   });
@@ -73,6 +75,26 @@ ${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlack
 ${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
 ${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a year ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
 ${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`
+    );
+  });
+
+  it('Gets details if supplied a name-version string', async function () {
+    process.chdir(join(__dirname, 'fixtures/bad-deps-path'));
+    setPrompt('Details');
+
+    let err;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (obj) => {
+      err = obj;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {});
+    expect(exitCode).to.equal(1);
+    expect(err).to.contain(
+      'Cannot convert undefined or null to object'
     );
   });
 });
