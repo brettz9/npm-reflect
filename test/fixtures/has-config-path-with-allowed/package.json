@@ -1,0 +1,10 @@
+{
+  "config": {
+    "allowedLicenseTypes": [
+      "permissive"
+    ]
+  },
+  "dependencies": {
+    "jamilih": "^0.54.0"
+  }
+}

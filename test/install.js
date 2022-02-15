@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 
 import install from '../lib/install.js';
 import {CFG} from '../lib/getPackageDetails.js';
-import {brightBlackFG, defaultFG, greenFG, redFG} from './utils/ansi.js';
+import {brightBlackFG, defaultFG, greenFG, redFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log, error} = console;
@@ -117,6 +117,60 @@ ${brightBlackFG}└────────────────${defaultFG}$
     expect(exitCode).to.equal(1);
     expect(val).to.equal(
       `${redFG}Limits provided in package.json are not satisfied${defaultFG}`
+    );
+  });
+
+  it('Errs out on test mode and over the maximum', async function () {
+    process.chdir(join(__dirname, 'fixtures/has-config-path-no-allowed'));
+    setPrompt('Details');
+    let val;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (str) => {
+      val = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {
+      test: true
+    });
+
+    expect(exitCode).to.equal(1);
+    expect(val).to.equal(
+      `${redFG}Limits provided in package.json are not satisfied${defaultFG}`
+    );
+  });
+
+  it('Gets check for allowed licenses', async function () {
+    process.chdir(join(__dirname, 'fixtures/has-config-path-with-allowed'));
+    setPrompt('Details');
+    let errVal;
+    let logVal;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (str) => {
+      errVal = str;
+    };
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      logVal = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {
+      test: true
+    });
+
+    expect(exitCode).to.equal(undefined);
+    expect(errVal).to.equal(undefined);
+
+    expect(logVal).to.equal(
+      // eslint-disable-next-line indent -- Readability
+`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}
+Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}
+Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${greenFG}✓${defaultFG}${space}`
     );
   });
 });
