@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import {brightBlackFG, defaultFG, greenFG, redFG} from '../utils/ansi.js';
-import spdxCorrectFixture from  '../fixtures/spdxCorrectFixture.js';
+import spdxCorrectFixture from '../fixtures/spdxCorrectFixture.js';
 
 // Being relative to now, these will vary over time, so keep tests valid (we
 //   could have also stubbed Date)
@@ -18,7 +18,6 @@ const [
 ].map((pkg) => {
   return moment(spdxCorrectFixture[pkg].modified).fromNow();
 });
-
 
 const spdxCorrectResults1 = `${brightBlackFG}┌─────────────────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬──────────────${defaultFG}${brightBlackFG}┬─────────────────────────${defaultFG}${brightBlackFG}┬───────────────────────────────┐${defaultFG}
 ${brightBlackFG}│${defaultFG}${redFG} Package                     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License                 ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies                  ${defaultFG}${brightBlackFG}│${defaultFG}
