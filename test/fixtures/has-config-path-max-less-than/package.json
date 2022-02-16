@@ -1,0 +1,8 @@
+{
+  "config": {
+    "maxPackagesNumber": 100
+  },
+  "dependencies": {
+    "jamilih": "^0.54.0"
+  }
+}

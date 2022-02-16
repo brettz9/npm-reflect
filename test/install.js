@@ -99,7 +99,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
   });
 
   it('Errs out on test mode and over the maximum', async function () {
-    process.chdir(join(__dirname, 'fixtures/has-config-path'));
+    process.chdir(join(__dirname, 'fixtures/has-config-path-max-over'));
     setPrompt('Details');
     let val;
     let exitCode;
@@ -117,6 +117,38 @@ ${brightBlackFG}└────────────────${defaultFG}$
     expect(exitCode).to.equal(1);
     expect(val).to.equal(
       `${redFG}Limits provided in package.json are not satisfied${defaultFG}`
+    );
+  });
+
+  it('Succeeds on test mode under a maximum', async function () {
+    process.chdir(join(__dirname, 'fixtures/has-config-path-max-less-than'));
+    setPrompt('Details');
+    let errVal;
+    let logVal;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (str) => {
+      errVal = str;
+    };
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      logVal = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {
+      test: true
+    });
+
+    expect(exitCode).to.equal(undefined);
+    expect(errVal).to.equal(undefined);
+
+    expect(logVal).to.equal(
+      // eslint-disable-next-line no-console -- Readability
+`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${greenFG}<= 100${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(7)}
+Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}       `
     );
   });
 
