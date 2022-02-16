@@ -1,6 +1,7 @@
 import {fileURLToPath} from 'url';
 import {join, dirname} from 'path';
 import inquirer from 'inquirer';
+import colors from 'colors/safe.js';
 
 import install from '../lib/install.js';
 import {CFG} from '../lib/getPackageDetails.js';
@@ -10,6 +11,7 @@ const {prompt} = inquirer;
 const {log, error} = console;
 const {exit} = process;
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const {argv} = process;
 
 /**
  * @param {string} promptValue
@@ -47,6 +49,7 @@ describe('`install`', function () {
     console.error = error;
     inquirer.prompt = prompt;
     process.exit = exit;
+    process.argv = argv;
   });
 
   after(() => {
@@ -98,6 +101,89 @@ ${brightBlackFG}└────────────────${defaultFG}$
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
+  });
+
+  it('executes additional npm command line commands without throwing', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+    process.argv = [, , 'whoami'];
+
+    setPrompt(`Install (${colors.bold('npm whoami')})`);
+    let val;
+    let exitCode;
+    const {log} = console;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      val = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+
+    await install('jamilih@0.54.0', {});
+
+    expect(exitCode).to.equal(undefined);
+    expect(val).to.equal(
+`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
+    );
+  });
+
+  it('executes additional npm command line commands without throwing (multiple args)', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-missing-deps-path'));
+    process.argv = [,];
+
+    setPrompt(`Install (${colors.bold('npm')})`);
+    let val;
+    let exitCode;
+    const {log} = console;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      val = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+
+    await install('jamilih@0.54.0', {});
+
+    expect(exitCode).to.equal(undefined);
+    expect(val).to.equal(
+`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
+    );
+  });
+
+  it('throws with bad command', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+    setPrompt('Details');
+    let val;
+    let exitCode;
+    const {log} = console;
+
+    let i = 0;
+    // eslint-disable-next-line no-console -- Mock
+    console.log = (...args) => {
+      if (i++ < 2) {
+        return log(...args);
+      }
+      throw new Error('simulating error');
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+
+    let error;
+    try {
+      await install('jamilih@0.54.0', {});
+    } catch (err) {
+      error = err;
+    }
+
+    expect(error.message).to.contain('simulating error');
+    expect(exitCode).to.equal(undefined);
+    expect(val).to.equal(undefined);
   });
 
   it('Gets details if supplied a name-version string', async function () {
