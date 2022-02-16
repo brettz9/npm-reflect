@@ -78,6 +78,28 @@ ${brightBlackFG}└────────────────${defaultFG}$
     );
   });
 
+  it('Silently skips', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+    setPrompt('Skip');
+    let val;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      val = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {});
+
+    expect(exitCode).to.equal(0);
+    expect(val).to.equal(
+`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
+    );
+  });
+
   it('Gets details if supplied a name-version string', async function () {
     process.chdir(join(__dirname, 'fixtures/bad-deps-path'));
     setPrompt('Details');
