@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@types/esprima": "4.0.3"
+  }
+}

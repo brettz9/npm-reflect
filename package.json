@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "example": "./bin/index.js install commander",
     "mocha": "mocha --require chai/register-expect.js",
-    "c8": "c8 --all npm run mocha",
+    "c8": "c8 --all npm run mocha --",
     "test": "npm run lint && npm run c8"
   },
   "repository": {
