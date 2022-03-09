@@ -8,7 +8,7 @@ import {CFG} from '../lib/getPackageDetails.js';
 import {brightBlackFG, defaultFG, greenFG, redFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
-const {log, error} = console;
+const {log, error: logError} = console;
 const {exit} = process;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const {argv} = process;
@@ -46,7 +46,7 @@ describe('`install`', function () {
     // eslint-disable-next-line no-console -- Spy
     console.log = log;
     // eslint-disable-next-line no-console -- Spy
-    console.error = error;
+    console.error = logError;
     inquirer.prompt = prompt;
     process.exit = exit;
     process.argv = argv;
@@ -97,7 +97,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(
-`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+      `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
@@ -105,12 +105,13 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
   it('executes additional npm command line commands without throwing', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
+    // eslint-disable-next-line no-sparse-arrays -- Only want 2+ args
     process.argv = [, , 'whoami'];
 
     setPrompt(`Install (${colors.bold('npm whoami')})`);
     let val;
     let exitCode;
-    const {log} = console;
+
     // eslint-disable-next-line no-console -- Spy
     console.log = (str) => {
       val = str;
@@ -123,7 +124,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
     expect(exitCode).to.equal(undefined);
     expect(val).to.equal(
-`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+      `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
@@ -131,12 +132,13 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
   it('executes additional npm command line commands without throwing (multiple args)', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-missing-deps-path'));
-    process.argv = [,];
+    // eslint-disable-next-line no-sparse-arrays, array-bracket-spacing -- Ignore 0, 1 args
+    process.argv = [, ];
 
     setPrompt(`Install (${colors.bold('npm')})`);
     let val;
     let exitCode;
-    const {log} = console;
+
     // eslint-disable-next-line no-console -- Spy
     console.log = (str) => {
       val = str;
@@ -149,7 +151,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
     expect(exitCode).to.equal(undefined);
     expect(val).to.equal(
-`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+      `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
@@ -160,7 +162,6 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     setPrompt('Details');
     let val;
     let exitCode;
-    const {log} = console;
 
     let i = 0;
     // eslint-disable-next-line no-console -- Mock
@@ -253,8 +254,8 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     expect(errVal).to.equal(undefined);
 
     expect(logVal).to.equal(
-      // eslint-disable-next-line no-console -- Readability
-`Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${greenFG}<= 100${defaultFG}${space}
+
+      `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${greenFG}<= 100${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(7)}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}       `
     );
