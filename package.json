@@ -37,10 +37,15 @@
     "node": ">=12.20.0"
   },
   "c8": {
+    "reporter": [
+      "html",
+      "text"
+    ],
     "exclude": [
       ".idea/**",
       ".eslintrc.js",
       ".ncurc.js",
+      "coverage/**",
       "test/**"
     ]
   },
