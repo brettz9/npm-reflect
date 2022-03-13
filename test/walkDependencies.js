@@ -66,13 +66,6 @@ describe('`walkDependencies`', function () {
     });
   });
 
-  /*
-  it.only('', async function () {
-    this.timeout(50000);
-    expect(await walkDependencies({'spdx-correct': '3.1.1'})).to.deep.equal({});
-  });
-  */
-
   // This doesn't work when run with other tests
   it('Exits upon walking bad package', function (done) {
     this.timeout(30000);

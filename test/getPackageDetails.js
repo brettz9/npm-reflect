@@ -21,8 +21,6 @@ describe('`getPackageDetails`', function () {
   afterEach(() => {
     // eslint-disable-next-line no-console -- Spy
     console.error = logError;
-  });
-  after(() => {
     CFG.packageDetailsCache = {};
   });
 
@@ -55,6 +53,26 @@ describe('`getPackageDetails`', function () {
     expect(details).to.deep.equal(jamilih);
   });
 
+  it('Gets "Unknown" license for npm package without license field', async function () {
+    const details = await getPackageDetails('not-licensed', '1.0.0');
+
+    const jamilih = {
+      dependencies: {},
+      license: 'Unknown',
+      licenseType: 'uncategorized',
+      name: 'not-licensed',
+      size: null,
+
+      // `modified` timestamp was created a few seconds after the latest version:
+      //   https://registry.npmjs.org/jamilih
+      modified: '2016-02-06T06:03:32.362Z',
+      version: '1.0.0',
+      versionLoose: '1.0.0'
+    };
+
+    expect(details).to.deep.equal(jamilih);
+  });
+
   it('Gets details on latest version if supplied version is empty', async function () {
     const details = await getPackageDetails('jamilih', '');
 
@@ -81,6 +99,25 @@ describe('`getPackageDetails`', function () {
     };
 
     expect(details).to.deep.equal(jamilih);
+  });
+
+  it('Gets details with github protocol (unlicensed)', async function () {
+    const details = await getPackageDetails('@brettz9/license-unlicensed', 'github:brettz9/license-unlicensed');
+
+    const unlicensed = {
+      dependencies: {},
+      license: 'Unknown',
+      licenseType: 'uncategorized',
+      name: '@brettz9/license-unlicensed',
+      version: '0.1.0',
+      versionLoose: 'github:brettz9/license-unlicensed',
+
+      // Todo: Incorrect size and modified date (would need to get into tag)
+      size: 2048,
+      modified: '2021-05-09T01:31:31Z'
+    };
+
+    expect(details).to.deep.equal(unlicensed);
   });
 
   it('Gets details on GitHub package with hash', async function () {

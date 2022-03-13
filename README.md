@@ -1,6 +1,7 @@
 # npm-reflect
 
-Maintained fork of [`npm-consider`](https://github.com/delfrrr/npm-consider).
+Maintained fork of [`npm-consider`](https://github.com/delfrrr/npm-consider)
+with full tests (as reflecting current behavior).
 
 Check npm package dependencies size, licenses and impact on your package before installing it 🤔
 
