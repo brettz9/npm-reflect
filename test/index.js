@@ -1,7 +1,9 @@
-import {fileURLToPath} from 'url';
-import {join, dirname} from 'path';
+import {fileURLToPath} from 'node:url';
+import {join, dirname} from 'node:path';
+// eslint-disable-next-line import/no-unresolved -- Bug
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
+import {expect} from 'chai';
 
 import {spdxCorrectResults1, spdxCorrectResults2} from './results/spdxCorrectResults.js';
 
@@ -86,7 +88,7 @@ describe('`index` installPackageOrLocal', function () {
     let exitCode;
 
     // eslint-disable-next-line no-console -- Mock
-    console.log = (...args) => {
+    console.log = (/* ...args */) => {
       throw new Error('simulating error');
     };
     process.exit = (code) => {
@@ -120,11 +122,11 @@ describe('`index` installPackageOrLocal', function () {
     await installPackageOrLocal('jamilih@0.54.0', {});
 
     const expected =
-`${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated    ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a year ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
+      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬─────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
+${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
+${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼─────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 5 years ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
+${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴─────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
 
     // log('expected', expected);
 
@@ -147,11 +149,11 @@ ${brightBlackFG}└────────────────${defaultFG}$
     await installPackageOrLocal('jamilih', {});
 
     const expected =
-`${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated    ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a year ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
+      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬───────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
+${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated   ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
+${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼───────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} jamilih@0.63.1 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a day ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
+${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴───────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
 
     // log('expected', expected);
 
@@ -174,13 +176,19 @@ ${brightBlackFG}└────────────────${defaultFG}$
     await installPackageOrLocal('@types/esprima@4.0.3', {});
 
     const expected =
-`${brightBlackFG}┌──────────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬──────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬─────────────────┐${defaultFG}\n${brightBlackFG}│${defaultFG}${redFG} Package              ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License${space.repeat(9)} ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies    ${defaultFG}${brightBlackFG}│${defaultFG}\n${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}\n${brightBlackFG}│${defaultFG} @types/esprima@4.0.3 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 8 months ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG} @types/estree@* ${brightBlackFG}│${defaultFG}\n${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}\n${brightBlackFG}│${defaultFG} @types/estree@0.0.51 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a month ago  ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}${space.repeat(16)} ${brightBlackFG}│${defaultFG}\n${brightBlackFG}└──────────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴──────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴─────────────────┘${defaultFG}`;
+      `${brightBlackFG}┌──────────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬──────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬─────────────────┐${defaultFG}
+${brightBlackFG}│${defaultFG}${redFG} Package              ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License${space.repeat(9)} ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies    ${defaultFG}${brightBlackFG}│${defaultFG}
+${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} @types/esprima@4.0.3 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 4 years ago  ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG} @types/estree@* ${brightBlackFG}│${defaultFG}
+${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} @types/estree@1.0.8  ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 6 months ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}${space.repeat(16)} ${brightBlackFG}│${defaultFG}
+${brightBlackFG}└──────────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴──────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴─────────────────┘${defaultFG}`;
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
   });
 
-  it('Logs error if package not found', async function () {
+  it('Logs error if package not found (details)', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
     let val;
@@ -218,6 +226,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
       spdxCorrectResults1,
       spdxCorrectResults2
     ]);
+    // expect(details).to.equal(spdxCorrectResults2);
   });
 
   it('Gets impact', async function () {
@@ -235,8 +244,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.equal(undefined);
     expect(details).to.equal(
-      // eslint-disable-next-line indent -- Readability
-`Packages ${brightBlackFG} ${defaultFG}0   ${brightBlackFG} ${defaultFG}+0.00%${space}
+      `Packages ${brightBlackFG} ${defaultFG}1   ${brightBlackFG} ${defaultFG}+1.56%${space}
 Size     ${brightBlackFG} ${defaultFG}0 B ${brightBlackFG} ${defaultFG}+NaN%${space.repeat(2)}
 No new licenses${space.repeat(7)}`
     );
@@ -261,7 +269,7 @@ No new licenses${space.repeat(7)}`
     );
   });
 
-  it('Logs error if package not found', async function () {
+  it('Logs error if package not found (skip)', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Skip');
     let val;

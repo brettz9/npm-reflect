@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import getLicenseStr from '../lib/getLicenseStr.js';
 
 describe('`getLicenseStr`', function () {

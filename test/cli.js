@@ -1,5 +1,6 @@
-import {promisify} from 'util';
-import {execFile as ef} from 'child_process';
+import {promisify} from 'node:util';
+import {execFile as ef} from 'node:child_process';
+import {expect} from 'chai';
 
 const execFile = promisify(ef);
 const binFile = './bin/index.js';

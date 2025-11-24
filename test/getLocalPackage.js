@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import getLocalPackage from '../lib/getLocalPackage.js';
 
 describe('`getLocalPackage`', function () {

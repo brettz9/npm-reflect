@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import printError from '../lib/printError.js';
 
 import {defaultFG, redFG} from './utils/ansi.js';

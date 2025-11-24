@@ -7,6 +7,7 @@
 - (breaking) refactor: Switch to ESM only
 - (breaking) refactor: change show* logging files to get\* string-returning
     files for easier testing and separation of concerns from CLI
+- (breaking) Node ^20.11.0 || >=22.16.0
 - feat: return `Promise` with `installPackage`
 - feat: support pnpm
 - feat: update `filesize`, `commander`, `inquirer`, `cli-table3`

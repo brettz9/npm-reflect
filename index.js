@@ -1,10 +1,11 @@
 /* eslint-disable no-console -- Should reenable and refactor so that only CLI file uses */
 
 /**
- * @file main file
+ * @file Main file.
  */
 
 import moment from 'moment';
+// eslint-disable-next-line import/no-unresolved -- Bug?
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
 
@@ -19,7 +20,7 @@ import install from './lib/install.js';
 
 /**
  * @param {string} nameVersion
- * @returns {PlainObject} name and version loose
+ * @returns {object} name and version loose
  */
 function parseName (nameVersion) {
   // TODO: check urls
@@ -53,14 +54,16 @@ function getChoices (command, args) {
   ];
 }
 
+/* eslint-disable jsdoc/reject-any-type -- Arbitrary */
 /**
  * Exporting so can unit test.
- * @param {PlainObject} options
+ * @param {object} options
  * @param {string} nameVersion
- * @param {PlainObject} packages
+ * @param {object} packages
  * @returns {Promise<void|*>} Recursive until exit
  */
 async function promptNextAction (options, nameVersion, packages) {
+  /* eslint-enable jsdoc/reject-any-type -- Arbitrary */
   try {
     const {command, args} = await getInstallCommand(nameVersion, options);
     const choices = getChoices(command, args);
@@ -102,7 +105,7 @@ async function promptNextAction (options, nameVersion, packages) {
 /**
  * Install action.
  * @param {string} nameVersion package considering to install
- * @param {PlainObject} options
+ * @param {object} options
  * @returns {Promise<void>}
  */
 async function installPackage (nameVersion, options) {
@@ -131,7 +134,7 @@ async function installPackage (nameVersion, options) {
 
 /**
  * @param {string} pkg package considering to install
- * @param {PlainObject} options Not in use
+ * @param {object} options Not in use
  * @returns {Promise<void>}
  */
 async function installPackageOrLocal (pkg, options) {

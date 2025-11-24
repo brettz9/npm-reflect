@@ -1,5 +1,6 @@
-import {fileURLToPath} from 'url';
-import {join, dirname} from 'path';
+import {fileURLToPath} from 'node:url';
+import {join, dirname} from 'node:path';
+import {expect} from 'chai';
 
 import getImpact from '../lib/getImpact.js';
 import {CFG} from '../lib/getPackageDetails.js';

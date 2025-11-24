@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import getPackageDetails, {CFG} from '../lib/getPackageDetails.js';
 import jamilihFixture from './fixtures/jamilihFixture.js';
 // import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
@@ -41,11 +42,11 @@ describe('`getPackageDetails`', function () {
     const details = await getPackageDetails('jamilih', '1000');
 
     const jamilih = {
-      ...Object.values(JSON.parse(JSON.stringify(jamilihFixture)))[0],
+      ...Object.values(structuredClone(jamilihFixture))[0],
 
       // `modified` timestamp was created a few seconds after the latest version:
       //   https://registry.npmjs.org/jamilih
-      modified: '2021-02-21T10:04:05.609Z',
+      modified: '2025-11-23T12:34:09.772Z',
       version: undefined,
       versionLoose: '1000'
     };
@@ -77,7 +78,7 @@ describe('`getPackageDetails`', function () {
     const details = await getPackageDetails('jamilih', '');
 
     const jamilih = {
-      ...Object.values(JSON.parse(JSON.stringify(jamilihFixture)))[0],
+      ...Object.values(structuredClone(jamilihFixture))[0],
       versionLoose: ''
     };
 
@@ -88,14 +89,14 @@ describe('`getPackageDetails`', function () {
     const details = await getPackageDetails('jamilih', 'github:brettz9/jamilih#v0.10.0');
 
     const jamilih = {
-      ...Object.values(JSON.parse(JSON.stringify(jamilihFixture)))[0],
+      ...Object.values(structuredClone(jamilihFixture))[0],
       ...jamilih090,
       version: '0.9.0',
       versionLoose: 'github:brettz9/jamilih#v0.10.0',
 
       // Todo: Incorrect size and modified date (would need to get into tag)
-      size: 5873664,
-      modified: '2022-01-12T10:27:33Z'
+      size: 16858112,
+      modified: '2025-11-23T12:33:52Z'
     };
 
     expect(details).to.deep.equal(jamilih);
@@ -124,14 +125,14 @@ describe('`getPackageDetails`', function () {
     const details = await getPackageDetails('jamilih', 'https://github.com/brettz9/jamilih#v0.10.0');
 
     const jamilih = {
-      ...Object.values(JSON.parse(JSON.stringify(jamilihFixture)))[0],
+      ...Object.values(structuredClone(jamilihFixture))[0],
       ...jamilih090,
       version: '0.9.0',
       versionLoose: 'https://github.com/brettz9/jamilih#v0.10.0',
 
       // Todo: Incorrect size and modified date (would need to get into tag)
-      size: 5873664,
-      modified: '2022-01-12T10:27:33Z'
+      size: 16858112,
+      modified: '2025-11-23T12:33:52Z'
     };
 
     expect(details).to.deep.equal(jamilih);

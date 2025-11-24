@@ -1,5 +1,6 @@
-import getQuickStats from '../lib/getQuickStats.js';
+import {expect} from 'chai';
 
+import getQuickStats from '../lib/getQuickStats.js';
 import {brightBlackFG, defaultFG, greenFG, space} from './utils/ansi.js';
 
 import argparseFixture from './fixtures/argparseFixture.js';

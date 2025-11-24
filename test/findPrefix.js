@@ -1,5 +1,7 @@
-import {fileURLToPath} from 'url';
-import pth from 'path';
+import {fileURLToPath} from 'node:url';
+import pth from 'node:path';
+import {expect} from 'chai';
+
 import findPrefix from '../lib/findPrefix.js';
 
 const {dirname, basename, join, resolve} = pth;

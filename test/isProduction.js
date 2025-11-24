@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import isProduction from '../lib/isProduction.js';
 
 describe('`isProduction`', function () {

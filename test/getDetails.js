@@ -1,3 +1,4 @@
+import {expect} from 'chai';
 import getDetails from '../lib/getDetails.js';
 
 import spdxCorrectFixture from './fixtures/spdxCorrectFixture.js';

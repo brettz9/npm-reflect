@@ -1,3 +1,5 @@
+import {expect} from 'chai';
+
 import calculateImpactPackages from '../lib/calculateImpactPackages.js';
 
 import argparseFixture from './fixtures/argparseFixture.js';
