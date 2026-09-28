@@ -1,6 +1,5 @@
 import {fileURLToPath} from 'node:url';
 import {join, dirname} from 'node:path';
-// eslint-disable-next-line import/no-unresolved -- Bug
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
 import {expect} from 'chai';
@@ -84,7 +83,6 @@ describe('`index` installPackageOrLocal', function () {
   it('throws with bad command', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
-    let val;
     let exitCode;
 
     // eslint-disable-next-line no-console -- Mock
@@ -103,8 +101,7 @@ describe('`index` installPackageOrLocal', function () {
     }
 
     expect(error.message).to.contain('simulating error');
-    expect(exitCode).to.equal(undefined);
-    expect(val).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
   });
 
   it('Gets string table if supplied a string', async function () {
@@ -242,7 +239,7 @@ ${brightBlackFG}└────────────────────�
     };
 
     await installPackageOrLocal('spdx-correct@3.1.1', {});
-    expect(exitCode).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
     expect(details).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1   ${brightBlackFG} ${defaultFG}+1.56%${space}
 Size     ${brightBlackFG} ${defaultFG}0 B ${brightBlackFG} ${defaultFG}+NaN%${space.repeat(2)}
@@ -263,7 +260,7 @@ No new licenses${space.repeat(7)}`
     };
 
     await promptNextAction('abadpackage@0.54.0', {});
-    expect(exitCode).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
     expect(details.message).to.equal(
       `Cannot convert undefined or null to object`
     );
@@ -284,6 +281,6 @@ No new licenses${space.repeat(7)}`
     await promptNextAction({}, 'jamilih@0.54.0');
 
     expect(exitCode).to.equal(0);
-    expect(val).to.equal(undefined);
+    expect(val).to.be.undefined;
   });
 });

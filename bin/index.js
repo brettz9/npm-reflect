@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import {readFileSync} from 'fs';
+import {readFileSync} from 'node:fs';
 import {program} from 'commander';
 import {installPackageOrLocal} from '../index.js';
 

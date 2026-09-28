@@ -34,7 +34,7 @@ describe('`getPackageDetails`', function () {
 
     const details = await getPackageDetails('jamilih', 'https://github.com/brettz9');
 
-    expect(details).to.equal(null);
+    expect(details).to.be.null;
     expect(val).to.contain('Cannot parse github dependency url');
   });
 

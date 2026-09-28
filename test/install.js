@@ -1,7 +1,6 @@
 import {fileURLToPath} from 'node:url';
 import {join, dirname} from 'node:path';
 import {expect} from 'chai';
-// eslint-disable-next-line import/no-unresolved -- Bug
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
 
@@ -124,7 +123,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
     await install('jamilih@0.54.0', {});
 
-    expect(exitCode).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
     expect(val).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
@@ -151,7 +150,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
     await install('jamilih@0.54.0', {});
 
-    expect(exitCode).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
     expect(val).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
@@ -162,7 +161,6 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
   it('throws with bad command', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
-    let val;
     let exitCode;
 
     let i = 0;
@@ -185,8 +183,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     }
 
     expect(error.message).to.contain('simulating error');
-    expect(exitCode).to.equal(undefined);
-    expect(val).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
   });
 
   it('Gets details if supplied a name-version string (bad deps path)', async function () {
@@ -252,8 +249,8 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
       test: true
     });
 
-    expect(exitCode).to.equal(undefined);
-    expect(errVal).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
+    expect(errVal).to.be.undefined;
 
     expect(logVal).to.equal(
 
@@ -306,8 +303,8 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
       test: true
     });
 
-    expect(exitCode).to.equal(undefined);
-    expect(errVal).to.equal(undefined);
+    expect(exitCode).to.be.undefined;
+    expect(errVal).to.be.undefined;
 
     expect(logVal).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}

@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 describe('`findPrefix`', function () {
   it('Does not err with bad directory', function (done) {
     findPrefix('bad-directory', (err) => {
-      expect(err).to.equal(null);
+      expect(err).to.be.null;
       done();
     });
   });

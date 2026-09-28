@@ -5,7 +5,6 @@
  */
 
 import moment from 'moment';
-// eslint-disable-next-line import/no-unresolved -- Bug?
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
 
@@ -138,10 +137,7 @@ async function installPackage (nameVersion, options) {
  * @returns {Promise<void>}
  */
 async function installPackageOrLocal (pkg, options) {
-  if (pkg) {
-    return await installPackage(pkg, options);
-  }
-  return await install(null, options);
+  return pkg ? (await installPackage(pkg, options)) : (await install(null, options));
 }
 
 export {install, installPackage, installPackageOrLocal, promptNextAction};
