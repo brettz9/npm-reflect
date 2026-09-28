@@ -4,6 +4,8 @@
  * @file Main file.
  */
 
+import readline from 'node:readline';
+
 import moment from 'moment';
 import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
@@ -111,8 +113,8 @@ async function installPackage (nameVersion, options) {
   const {name, versionLoose} = parseName(nameVersion);
   try {
     const packageStats = await getPackageDetails(name, versionLoose);
-    process.stdout.cursorTo(0);
-    process.stdout.clearLine(1);
+    readline.cursorTo(process.stdout, 0);
+    readline.clearLine(process.stdout, 1);
     process.stdout.write(`${
       colors.bold(
         `${packageStats.name}@${packageStats.version}`
