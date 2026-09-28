@@ -6,6 +6,7 @@
 - fix: inquirer `list` type issue
 - fix: resolve tarball size via ranged GET instead of HEAD
 - fix: handle license types for compound-OR expressions
+- fix: correctly categorize licenses with multiple license-types flags
 
 ## 2.0.2
 

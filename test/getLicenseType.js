@@ -24,4 +24,24 @@ describe('`getLicenseType`', function () {
     //   "uncategorized" because that argument was passed as a bare string.
     expect(getLicenseType('(MIT OR CC0-1.0)')).to.equal('publicDomain');
   });
+
+  it('Gets "useOrModifyProtective" for a license flagged with both use and modify restrictions', function () {
+    // `license-types` sets both `useProtective` and `modifyProtective` on
+    //   licenses like this (e.g. Creative Commons NoDerivatives licenses);
+    //   picking the object's first key used to return the raw
+    //   `useProtective` flag name, which isn't one of the categories
+    //   `formatLicenseType` knows how to render and crashes it.
+    expect(getLicenseType('CC-BY-NC-ND-2.5')).to.equal('useOrModifyProtective');
+  });
+
+  it('Gets "useOrModifyProtective" for a license combining "protective" with a use restriction', function () {
+    // e.g. Creative Commons ShareAlike NonCommercial licenses are flagged
+    //   `protective` and `useProtective` together; the more restrictive
+    //   flag should win.
+    expect(getLicenseType('CC-BY-NC-SA-2.0')).to.equal('useOrModifyProtective');
+  });
+
+  it('Gets license type (networkProtective)', function () {
+    expect(getLicenseType('AGPL-3.0')).to.equal('networkProtective');
+  });
 });
