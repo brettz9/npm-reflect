@@ -1,3 +1,8 @@
+[![Licenses badge](https://raw.githubusercontent.com/brettz9/npm-reflect/main/badges/licenses-badge.svg?sanitize=true)](doc-includes/licenses-badge.svg)
+
+[![Tests badge](./doc-includes/tests-badge.svg)](doc-includes/tests-badge.svg)
+[![coverage badge](./doc-includes/coverage-badge.svg)](doc-includes/coverage-badge.svg)
+
 # npm-reflect
 
 Maintained fork of [`npm-consider`](https://github.com/delfrrr/npm-consider)
