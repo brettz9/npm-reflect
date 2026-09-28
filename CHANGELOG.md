@@ -1,5 +1,9 @@
 # CHANGES for `npm-reflect`
 
+## 2.0.1
+
+- docs: fix licenses badge path
+
 ## 2.0.0
 
 ### User-impacting changes
