@@ -1,3 +1,15 @@
+import {resolvePackageVersion} from '../utils/resolvePackageVersion.js';
+
+// `spdx-license-ids` and `spdx-exceptions` are resolved live (rather than
+//   pinned to a specific patch version) because the code under test always
+//   installs the latest version matching the semver range declared by their
+//   dependents, and that latest version changes over time as new patches
+//   are published.
+const [spdxLicenseIds, spdxExceptions] = await Promise.all([
+  resolvePackageVersion('spdx-license-ids', '^3.0.0'),
+  resolvePackageVersion('spdx-exceptions', '^2.1.0')
+]);
+
 const spdxCorrectFixture = {
   'spdx-correct@3.1.1': {
     dependencies: {
@@ -25,24 +37,24 @@ const spdxCorrectFixture = {
     version: '3.0.1',
     versionLoose: '^3.0.0'
   },
-  'spdx-license-ids@3.0.11': {
+  [`spdx-license-ids@${spdxLicenseIds.version}`]: {
     dependencies: {},
-    license: 'CC0-1.0',
+    license: spdxLicenseIds.license,
     licenseType: 'publicDomain',
-    modified: '2021-11-14T20:46:47.843Z',
+    modified: spdxLicenseIds.modified,
     name: 'spdx-license-ids',
     size: null,
-    version: '3.0.11',
+    version: spdxLicenseIds.version,
     versionLoose: '^3.0.0'
   },
-  'spdx-exceptions@2.3.0': {
+  [`spdx-exceptions@${spdxExceptions.version}`]: {
     dependencies: {},
-    license: 'CC-BY-3.0',
+    license: spdxExceptions.license,
     licenseType: 'permissive',
-    modified: '2020-04-20T22:39:44.559Z',
+    modified: spdxExceptions.modified,
     name: 'spdx-exceptions',
     size: null,
-    version: '2.3.0',
+    version: spdxExceptions.version,
     versionLoose: '^2.1.0'
   }
 };

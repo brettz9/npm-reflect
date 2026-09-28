@@ -1,6 +1,8 @@
 import {expect} from 'chai';
 import getPackageDetails, {CFG} from '../lib/getPackageDetails.js';
 import jamilihFixture from './fixtures/jamilihFixture.js';
+import resolveGitHubRepoInfo from './utils/resolveGitHubRepoInfo.js';
+import {resolveOverallModified} from './utils/resolvePackageVersion.js';
 // import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
 
 const {error: logError} = console;
@@ -41,12 +43,14 @@ describe('`getPackageDetails`', function () {
   it('Gets latest modified time (and `versions` details) if supplied version is too high', async function () {
     const details = await getPackageDetails('jamilih', '1000');
 
+    // A too-high version falls back to the registry document's overall
+    //   `modified` timestamp, which is not the same as the latest version's
+    //   own publish timestamp, and drifts whenever the registry document
+    //   is touched (e.g. deprecation, new version) - resolved live here.
+    const modified = await resolveOverallModified('jamilih');
     const jamilih = {
       ...Object.values(structuredClone(jamilihFixture))[0],
-
-      // `modified` timestamp was created a few seconds after the latest version:
-      //   https://registry.npmjs.org/jamilih
-      modified: '2025-11-23T12:34:09.772Z',
+      modified,
       version: undefined,
       versionLoose: '1000'
     };
@@ -88,15 +92,16 @@ describe('`getPackageDetails`', function () {
   it('Gets details with github protocol', async function () {
     const details = await getPackageDetails('jamilih', 'github:brettz9/jamilih#v0.10.0');
 
+    // Todo: Incorrect size and modified date (would need to get into tag);
+    //   resolved live since the repo's size and last push keep changing.
+    const {size, modified} = await resolveGitHubRepoInfo('brettz9', 'jamilih');
     const jamilih = {
       ...Object.values(structuredClone(jamilihFixture))[0],
       ...jamilih090,
       version: '0.9.0',
       versionLoose: 'github:brettz9/jamilih#v0.10.0',
-
-      // Todo: Incorrect size and modified date (would need to get into tag)
-      size: 16858112,
-      modified: '2025-11-23T12:33:52Z'
+      size,
+      modified
     };
 
     expect(details).to.deep.equal(jamilih);
@@ -105,6 +110,9 @@ describe('`getPackageDetails`', function () {
   it('Gets details with github protocol (unlicensed)', async function () {
     const details = await getPackageDetails('@brettz9/license-unlicensed', 'github:brettz9/license-unlicensed');
 
+    // Todo: Incorrect size and modified date (would need to get into tag);
+    //   resolved live since the repo's size and last push keep changing.
+    const {size, modified} = await resolveGitHubRepoInfo('brettz9', 'license-unlicensed');
     const unlicensed = {
       dependencies: {},
       license: 'Unknown',
@@ -112,10 +120,8 @@ describe('`getPackageDetails`', function () {
       name: '@brettz9/license-unlicensed',
       version: '0.1.0',
       versionLoose: 'github:brettz9/license-unlicensed',
-
-      // Todo: Incorrect size and modified date (would need to get into tag)
-      size: 2048,
-      modified: '2021-05-09T01:31:31Z'
+      size,
+      modified
     };
 
     expect(details).to.deep.equal(unlicensed);
@@ -124,15 +130,16 @@ describe('`getPackageDetails`', function () {
   it('Gets details on GitHub package with hash', async function () {
     const details = await getPackageDetails('jamilih', 'https://github.com/brettz9/jamilih#v0.10.0');
 
+    // Todo: Incorrect size and modified date (would need to get into tag);
+    //   resolved live since the repo's size and last push keep changing.
+    const {size, modified} = await resolveGitHubRepoInfo('brettz9', 'jamilih');
     const jamilih = {
       ...Object.values(structuredClone(jamilihFixture))[0],
       ...jamilih090,
       version: '0.9.0',
       versionLoose: 'https://github.com/brettz9/jamilih#v0.10.0',
-
-      // Todo: Incorrect size and modified date (would need to get into tag)
-      size: 16858112,
-      modified: '2025-11-23T12:33:52Z'
+      size,
+      modified
     };
 
     expect(details).to.deep.equal(jamilih);

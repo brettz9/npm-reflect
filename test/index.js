@@ -8,7 +8,9 @@ import {spdxCorrectResults1, spdxCorrectResults2} from './results/spdxCorrectRes
 
 import {installPackageOrLocal, promptNextAction} from '../index.js';
 import {CFG} from '../lib/getPackageDetails.js';
-import {brightBlackFG, defaultFG, greenFG, redFG, space} from './utils/ansi.js';
+import getDetails from '../lib/getDetails.js';
+import {resolvePackageVersion, resolveLatestVersion} from './utils/resolvePackageVersion.js';
+import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log, error: logError} = console;
@@ -118,14 +120,19 @@ describe('`index` installPackageOrLocal', function () {
     };
     await installPackageOrLocal('jamilih@0.54.0', {});
 
-    const expected =
-      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬─────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼─────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 5 years ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴─────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
-
-    // log('expected', expected);
+    // jamilih@0.54.0 is a pinned, immutable published version, but its
+    //   `modified` string (relative to now) and MIT/permissive license
+    //   are resolved live rather than hardcoded to avoid drift over time.
+    const jamilih = await resolvePackageVersion('jamilih', '0.54.0');
+    const expected = getDetails({
+      'jamilih@0.54.0': {
+        modified: jamilih.modified,
+        license: jamilih.license,
+        licenseType: 'permissive',
+        size: null,
+        dependencies: jamilih.dependencies
+      }
+    });
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -145,14 +152,19 @@ ${brightBlackFG}└────────────────${defaultFG}$
     };
     await installPackageOrLocal('jamilih', {});
 
-    const expected =
-      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬───────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated   ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼───────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} jamilih@0.63.1 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} a day ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴───────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`;
-
-    // log('expected', expected);
+    // A "latest" dependency always installs whatever npm currently reports
+    //   as `latest`, so the version, license and `modified` string are
+    //   resolved live rather than hardcoded to avoid drift over time.
+    const jamilih = await resolveLatestVersion('jamilih');
+    const expected = getDetails({
+      [`jamilih@${jamilih.version}`]: {
+        modified: jamilih.modified,
+        license: jamilih.license,
+        licenseType: 'permissive',
+        size: null,
+        dependencies: jamilih.dependencies
+      }
+    });
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -172,14 +184,30 @@ ${brightBlackFG}└────────────────${defaultFG}$
     };
     await installPackageOrLocal('@types/esprima@4.0.3', {});
 
-    const expected =
-      `${brightBlackFG}┌──────────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬──────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬─────────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package              ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License${space.repeat(9)} ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies    ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} @types/esprima@4.0.3 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 4 years ago  ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG} @types/estree@* ${brightBlackFG}│${defaultFG}
-${brightBlackFG}├──────────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼──────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┼─────${defaultFG}${brightBlackFG}┼─────────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} @types/estree@1.0.8  ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} 6 months ago ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}${space.repeat(16)} ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└──────────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴──────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴─────────────────┘${defaultFG}`;
+    // @types/esprima@4.0.3 is a pinned, immutable published version, but its
+    //   `@types/estree` dependency resolves to whatever currently satisfies
+    //   its declared `*` range, so both packages' `modified` strings and the
+    //   resolved `@types/estree` version are resolved live to avoid drift.
+    const [esprima, estree] = await Promise.all([
+      resolvePackageVersion('@types/esprima', '4.0.3'),
+      resolvePackageVersion('@types/estree', '*')
+    ]);
+    const expected = getDetails({
+      '@types/esprima@4.0.3': {
+        modified: esprima.modified,
+        license: esprima.license,
+        licenseType: 'permissive',
+        size: null,
+        dependencies: esprima.dependencies
+      },
+      [`@types/estree@${estree.version}`]: {
+        modified: estree.modified,
+        license: estree.license,
+        licenseType: 'permissive',
+        size: null,
+        dependencies: {}
+      }
+    });
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -240,8 +268,13 @@ ${brightBlackFG}└────────────────────�
 
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.be.undefined;
-    expect(details).to.equal(
-      `Packages ${brightBlackFG} ${defaultFG}1   ${brightBlackFG} ${defaultFG}+1.56%${space}
+
+    // The "Packages" impact percentage depends on this project's own total
+    //   dependency count, which changes as package.json's dependencies
+    //   change, so it is normalized out rather than hardcoded.
+    const normalizedDetails = details.replace(/\+\d+\.\d+%/v, '+X%');
+    expect(normalizedDetails).to.equal(
+      `Packages ${brightBlackFG} ${defaultFG}1   ${brightBlackFG} ${defaultFG}+X%${space}
 Size     ${brightBlackFG} ${defaultFG}0 B ${brightBlackFG} ${defaultFG}+NaN%${space.repeat(2)}
 No new licenses${space.repeat(7)}`
     );
