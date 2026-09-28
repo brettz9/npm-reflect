@@ -1,25 +1,27 @@
 # CHANGES for `npm-reflect`
 
-## 2.0.0 (unreleased)
+## 2.0.0
 
 ### User-impacting changes
 
 - (breaking) refactor: Switch to ESM only
 - (breaking) refactor: change show* logging files to get\* string-returning
     files for easier testing and separation of concerns from CLI
-- (breaking) Node ^20.11.0 || >=22.16.0
+- (breaking) Node >=22.16.0
+- feat: use `license-types` for more up-to-date license categorization
 - feat: return `Promise` with `installPackage`
 - feat: support pnpm
-- feat: update `filesize`, `commander`, `inquirer`, `cli-table3`
+- feat: update `filesize`, `commander`, `inquirer`, `cli-table3`, `moment`, `semver`
 - feat: allow overriding package details cache and for a new `npmConfig` cache
 - fix: prevent infinite loop with empty dependencies
+- fix: use readline instead of process.stdout.cursorTo/clearLine
 
 ### Dev-impacting changes
 
 - chore: switch linting to ash-nazg
 - chore: switch to pnpm
 - chore: add example script
-- test: Adds some tests
+- test: Adds non-fragile tests with 100% coverage
 
 ## 1.1.0
 

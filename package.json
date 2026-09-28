@@ -1,7 +1,7 @@
 {
   "name": "npm-reflect",
   "type": "module",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Check npm package dependencies, stats and impact on your package before installing it",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/brettz9/npm-reflect#readme",
   "engines": {
-    "node": "^20.11.0 || >=22.16.0"
+    "node": ">=22.16.0"
   },
   "c8": {
     "checkCoverage": true,
@@ -66,6 +66,7 @@
     "commander": "^15.0.0",
     "filesize": "^11.0.25",
     "inquirer": "^14.2.2",
+    "license-types": "^3.3.0",
     "moment": "^2.31.0",
     "node-fetch": "^3.3.2",
     "promise-queue": "^2.2.5",
