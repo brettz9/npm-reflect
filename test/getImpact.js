@@ -63,6 +63,90 @@ No new licenses${space.repeat(7)}`
     );
   });
 
+  it('Lists affected packages for uncategorized licenses', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+
+    const newPackages = {
+      'not-licensed@1.0.0': {
+        name: 'not-licensed',
+        version: '1.0.0',
+        license: 'Unknown',
+        licenseType: 'uncategorized',
+        dependencies: {},
+        size: null
+      }
+    };
+
+    const impact = await getImpact({}, newPackages);
+
+    expect(impact).to.equal(
+      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(8)}${brightBlackFG} ${defaultFG}+100.00%${space}
+Size${space.repeat(5)}${brightBlackFG} ${defaultFG}0 B${space.repeat(6)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(3)}
+Licenses${space}${brightBlackFG} ${defaultFG}Unknown${space.repeat(2)}${brightBlackFG} ${defaultFG}1${space.repeat(8)}
+Uncategorized packages:${space.repeat(6)}
+not-licensed@1.0.0 (Missing)${space}`
+    );
+  });
+
+  it('Groups uncategorized packages from different licenses into one section', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+
+    const newPackages = {
+      'not-licensed@1.0.0': {
+        name: 'not-licensed',
+        version: '1.0.0',
+        license: 'Unknown',
+        licenseType: 'uncategorized',
+        dependencies: {},
+        size: null
+      },
+      'weird-license@2.0.0': {
+        name: 'weird-license',
+        version: '2.0.0',
+        license: 'SEE LICENSE IN LICENSE',
+        licenseType: 'uncategorized',
+        dependencies: {},
+        size: null
+      }
+    };
+
+    const impact = await getImpact({}, newPackages);
+
+    expect(impact).to.equal(
+      `Packages${space.repeat(12)}${brightBlackFG} ${defaultFG}2${space.repeat(33)}${brightBlackFG} ${defaultFG}+200.00%${space.repeat(11)}
+Size${space.repeat(16)}${brightBlackFG} ${defaultFG}0 B${space.repeat(31)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(13)}
+Licenses${space.repeat(12)}${brightBlackFG} ${defaultFG}Unknown${space.repeat(27)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
+${space.repeat(20)}${brightBlackFG} ${defaultFG}SEE LICENSE IN LICENSE${space.repeat(12)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
+Uncategorized packages:${space.repeat(52)}
+not-licensed@1.0.0 (Missing), weird-license@2.0.0 (SEE LICENSE IN LICENSE)${space}`
+    );
+  });
+
+  it('Does not double-parenthesize an already-parenthesized license', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+
+    const newPackages = {
+      'type-fest@4.41.0': {
+        name: 'type-fest',
+        version: '4.41.0',
+        license: '(MIT OR CC0-1.0)',
+        licenseType: 'uncategorized',
+        dependencies: {},
+        size: null
+      }
+    };
+
+    const impact = await getImpact({}, newPackages);
+
+    expect(impact).to.equal(
+      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(16)}${brightBlackFG} ${defaultFG}+100.00%${space}
+Size${space.repeat(5)}${brightBlackFG} ${defaultFG}0 B${space.repeat(14)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(3)}
+Licenses${space}${brightBlackFG} ${defaultFG}(MIT OR CC0-1.0)${space}${brightBlackFG} ${defaultFG}1${space.repeat(8)}
+Uncategorized packages:${space.repeat(14)}
+type-fest@4.41.0 (MIT OR CC0-1.0)${space.repeat(4)}`
+    );
+  });
+
   it('Throws upon missing dependencies', async function () {
     process.chdir(join(__dirname, 'fixtures/missing-deps-path'));
     let error;

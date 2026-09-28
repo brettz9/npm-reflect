@@ -1,7 +1,8 @@
 # CHANGES for `npm-reflect`
 
-## 2.0.3
+## 2.1.0
 
+- feat: list specific uncategorized licenses
 - fix: inquirer `list` type issue
 - fix: resolve tarball size via ranged GET instead of HEAD
 

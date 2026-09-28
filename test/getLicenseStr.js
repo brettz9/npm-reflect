@@ -22,4 +22,8 @@ describe('`getLicenseStr`', function () {
   it('Gets OR type if supplied an array of types', function () {
     expect(getLicenseStr([{type: 'MIT'}, 'GPL-3.0'])).to.equal('(MIT OR GPL-3.0)');
   });
+
+  it('Gets bare type (not parenthesized) if supplied a single-item array', function () {
+    expect(getLicenseStr([{type: 'MIT', url: 'https://example.com/LICENSE'}])).to.equal('MIT');
+  });
 });
