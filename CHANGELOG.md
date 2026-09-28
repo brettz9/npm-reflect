@@ -1,5 +1,9 @@
 # CHANGES for `npm-reflect`
 
+## 2.0.3
+
+- fix: inquirer `list` type issue
+
 ## 2.0.2
 
 - fix: handle `npm:` alias specifiers

@@ -1,7 +1,7 @@
 {
   "name": "npm-reflect",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Check npm package dependencies, stats and impact on your package before installing it",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
     "license-badges": "npm run license-badge && npm run license-badge-dev",
     "coverage-badge": "coveradge doc-includes/coverage-badge.svg",
     "lint": "eslint .",
+    "cli": "./bin/index.js",
     "example": "./bin/index.js install commander",
     "mocha": "mocha --reporter=mocha-multi-reporters --reporter-options configFile=mmr.json",
     "c8": "c8 --all npm run mocha --",

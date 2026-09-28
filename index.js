@@ -69,7 +69,7 @@ async function promptNextAction (options, nameVersion, packages) {
     const {command, args} = await getInstallCommand(nameVersion, options);
     const choices = getChoices(command, args);
     const {next} = await inquirer.prompt({
-      type: `list`,
+      type: `select`,
       name: `next`,
       message: `What is next?`,
       choices

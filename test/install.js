@@ -22,7 +22,7 @@ const {argv} = process;
 function setPrompt (promptValue) {
   // eslint-disable-next-line require-await -- Just need a Promise return
   inquirer.prompt = async ({type, name, message, choices}) => {
-    expect(type).to.equal('list');
+    expect(type).to.equal('select');
     expect(name).to.equal('next');
     expect(message).to.equal('What is next?');
 
