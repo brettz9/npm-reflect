@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 import colors from 'colors/safe.js';
 import {expect} from 'chai';
 
-import {spdxCorrectResults1, spdxCorrectResults2} from './results/spdxCorrectResults.js';
+import {spdxCorrectResults} from './results/spdxCorrectResults.js';
 
 import {installPackageOrLocal, promptNextAction} from '../index.js';
 import {CFG} from '../lib/getPackageDetails.js';
@@ -247,11 +247,7 @@ describe('`index` installPackageOrLocal', function () {
 
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.equal(0);
-    expect(details).to.be.oneOf([
-      spdxCorrectResults1,
-      spdxCorrectResults2
-    ]);
-    // expect(details).to.equal(spdxCorrectResults2);
+    expect(details).to.equal(spdxCorrectResults);
   });
 
   it('Gets impact', async function () {
