@@ -78,6 +78,30 @@ describe('`getPackageDetails`', function () {
     expect(details).to.deep.equal(jamilih);
   });
 
+  it('Resolves `npm:` alias specifiers to the aliased package', async function () {
+    const details = await getPackageDetails('jamilih-alias', 'npm:jamilih@1000');
+
+    const modified = await resolveOverallModified('jamilih');
+    const jamilih = {
+      ...Object.values(structuredClone(jamilihFixture))[0],
+      modified,
+      version: undefined,
+      versionLoose: '1000'
+    };
+
+    expect(details).to.deep.equal(jamilih);
+  });
+
+  it('Resolves scoped `npm:` alias specifiers to the aliased package', async function () {
+    const details = await getPackageDetails(
+      'passport-strategy-alias', 'npm:@passport-next/passport-strategy@1.1.0'
+    );
+
+    expect(details.name).to.equal('@passport-next/passport-strategy');
+    expect(details.version).to.equal('1.1.0');
+    expect(details.versionLoose).to.equal('1.1.0');
+  });
+
   it('Gets details on latest version if supplied version is empty', async function () {
     const details = await getPackageDetails('jamilih', '');
 

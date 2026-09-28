@@ -1,5 +1,9 @@
 # CHANGES for `npm-reflect`
 
+## 2.0.2
+
+- fix: handle `npm:` alias specifiers
+
 ## 2.0.1
 
 - docs: fix licenses badge path
