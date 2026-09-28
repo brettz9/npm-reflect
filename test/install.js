@@ -78,11 +78,11 @@ describe('`install`', function () {
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(
-      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬──────${defaultFG}${brightBlackFG}┬─────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
-${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
-${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼──────${defaultFG}${brightBlackFG}┼─────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
-${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 0 B  ${brightBlackFG}│${defaultFG} ${updated} ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
-${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴──────${defaultFG}${brightBlackFG}┴─────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`
+      `${brightBlackFG}┌────────────────${defaultFG}${brightBlackFG}┬───────────${defaultFG}${brightBlackFG}┬─────────────${defaultFG}${brightBlackFG}┬──────────────────${defaultFG}${brightBlackFG}┬──────────────┐${defaultFG}
+${brightBlackFG}│${defaultFG}${redFG} Package        ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Size      ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Updated     ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} License          ${defaultFG}${brightBlackFG}│${defaultFG}${redFG} Dependencies ${defaultFG}${brightBlackFG}│${defaultFG}
+${brightBlackFG}├────────────────${defaultFG}${brightBlackFG}┼───────────${defaultFG}${brightBlackFG}┼─────────────${defaultFG}${brightBlackFG}┼────────────${defaultFG}${brightBlackFG}┬─────${defaultFG}${brightBlackFG}┼──────────────┤${defaultFG}
+${brightBlackFG}│${defaultFG} jamilih@0.54.0 ${brightBlackFG}│${defaultFG} 124.26 kB ${brightBlackFG}│${defaultFG} ${updated} ${brightBlackFG}│${defaultFG} ${greenFG}Permissive${defaultFG} ${brightBlackFG}│${defaultFG} MIT ${brightBlackFG}│${defaultFG}              ${brightBlackFG}│${defaultFG}
+${brightBlackFG}└────────────────${defaultFG}${brightBlackFG}┴───────────${defaultFG}${brightBlackFG}┴─────────────${defaultFG}${brightBlackFG}┴────────────${defaultFG}${brightBlackFG}┴─────${defaultFG}${brightBlackFG}┴──────────────┘${defaultFG}`
     );
   });
 
@@ -103,7 +103,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
     expect(exitCode).to.equal(0);
     expect(val).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}124.26 kB  ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
   });
@@ -130,7 +130,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     expect(exitCode).to.be.undefined;
     expect(val).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}124.26 kB  ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
   });
@@ -157,7 +157,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     expect(exitCode).to.be.undefined;
     expect(val).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
+Size     ${brightBlackFG} ${defaultFG}124.26 kB  ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${space}`
     );
   });
@@ -259,7 +259,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     expect(logVal).to.equal(
 
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${greenFG}<= 100${defaultFG}${space}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(7)}
+Size     ${brightBlackFG} ${defaultFG}124.26 kB  ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(7)}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}       `
     );
   });
@@ -312,7 +312,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
     expect(logVal).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}1          ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}
+Size     ${brightBlackFG} ${defaultFG}124.26 kB  ${brightBlackFG} ${defaultFG}  ${brightBlackFG} ${defaultFG}${space.repeat(2)}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}1 ${brightBlackFG} ${defaultFG}${greenFG}✓${defaultFG}${space}`
     );
   });

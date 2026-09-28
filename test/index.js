@@ -9,8 +9,9 @@ import {spdxCorrectResults} from './results/spdxCorrectResults.js';
 import {installPackageOrLocal, promptNextAction} from '../index.js';
 import {CFG} from '../lib/getPackageDetails.js';
 import getDetails from '../lib/getDetails.js';
+import getImpact from '../lib/getImpact.js';
+import walkDependencies from '../lib/walkDependencies.js';
 import {resolvePackageVersion, resolveLatestVersion} from './utils/resolvePackageVersion.js';
-import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
 
 const {prompt} = inquirer;
 const {log, error: logError} = console;
@@ -129,7 +130,7 @@ describe('`index` installPackageOrLocal', function () {
         modified: jamilih.modified,
         license: jamilih.license,
         licenseType: 'permissive',
-        size: null,
+        size: jamilih.size,
         dependencies: jamilih.dependencies
       }
     });
@@ -161,7 +162,7 @@ describe('`index` installPackageOrLocal', function () {
         modified: jamilih.modified,
         license: jamilih.license,
         licenseType: 'permissive',
-        size: null,
+        size: jamilih.size,
         dependencies: jamilih.dependencies
       }
     });
@@ -197,14 +198,14 @@ describe('`index` installPackageOrLocal', function () {
         modified: esprima.modified,
         license: esprima.license,
         licenseType: 'permissive',
-        size: null,
+        size: esprima.size,
         dependencies: esprima.dependencies
       },
       [`@types/estree@${estree.version}`]: {
         modified: estree.modified,
         license: estree.license,
         licenseType: 'permissive',
-        size: null,
+        size: estree.size,
         dependencies: {}
       }
     });
@@ -265,15 +266,16 @@ describe('`index` installPackageOrLocal', function () {
     await installPackageOrLocal('spdx-correct@3.1.1', {});
     expect(exitCode).to.be.undefined;
 
-    // The "Packages" impact percentage depends on this project's own total
-    //   dependency count, which changes as package.json's dependencies
-    //   change, so it is normalized out rather than hardcoded.
-    const normalizedDetails = details.replace(/\+\d+\.\d+%/v, '+X%');
-    expect(normalizedDetails).to.equal(
-      `Packages ${brightBlackFG} ${defaultFG}1   ${brightBlackFG} ${defaultFG}+X%${space}
-Size     ${brightBlackFG} ${defaultFG}0 B ${brightBlackFG} ${defaultFG}+NaN%${space.repeat(2)}
-No new licenses${space.repeat(7)}`
-    );
+    // The impact table's percentages and sizes depend on this project's own
+    //   total dependency count/size (which changes as package.json's
+    //   dependencies change) and on the live tarball size of `spdx-correct`,
+    //   so the expected table is built from the same real computation
+    //   (`getImpact` over the same resolved packages) instead of a
+    //   hand-maintained, ANSI-padded string.
+    const packages = await walkDependencies({'spdx-correct': '3.1.1'});
+    const expected = await getImpact({}, packages);
+
+    expect(details).to.equal(expected);
   });
 
   it('Gives error on bad impact', async function () {

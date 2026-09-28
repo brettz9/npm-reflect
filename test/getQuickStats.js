@@ -11,7 +11,7 @@ describe('`getQuickStats`', function () {
     this.timeout(30000);
     expect(getQuickStats(argparseFixture)).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}3          ${brightBlackFG} ${defaultFG}${space.repeat(2)}
-Size     ${brightBlackFG} ${defaultFG}0 B        ${brightBlackFG} ${defaultFG}${space.repeat(2)}
+Size     ${brightBlackFG} ${defaultFG}214.87 kB${space.repeat(2)}${brightBlackFG} ${defaultFG}${space.repeat(2)}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightBlackFG} ${defaultFG}3${space}`
     );
   });
@@ -20,7 +20,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     this.timeout(30000);
     expect(getQuickStats(spdxCorrectFixture)).to.equal(
       `Packages ${brightBlackFG} ${defaultFG}4             ${brightBlackFG} ${defaultFG}${space.repeat(2)}
-Size     ${brightBlackFG} ${defaultFG}0 B           ${brightBlackFG} ${defaultFG}${space.repeat(2)}
+Size     ${brightBlackFG} ${defaultFG}18.08 kB${space.repeat(6)}${brightBlackFG} ${defaultFG}${space.repeat(2)}
 Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG}    ${brightBlackFG} ${defaultFG}3${space}
          ${brightBlackFG} ${defaultFG}${greenFG}Public Domain${defaultFG} ${brightBlackFG} ${defaultFG}1${space}`
     );

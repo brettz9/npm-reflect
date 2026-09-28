@@ -1,8 +1,9 @@
+import http from 'node:http';
 import {expect} from 'chai';
 import getPackageDetails, {CFG} from '../lib/getPackageDetails.js';
 import jamilihFixture from './fixtures/jamilihFixture.js';
 import resolveGitHubRepoInfo from './utils/resolveGitHubRepoInfo.js';
-import {resolveOverallModified} from './utils/resolvePackageVersion.js';
+import {resolveOverallModified, resolveTarballSize} from './utils/resolvePackageVersion.js';
 // import {brightBlackFG, defaultFG, space} from './utils/ansi.js';
 
 const {error: logError} = console;
@@ -61,12 +62,13 @@ describe('`getPackageDetails`', function () {
   it('Gets "Unknown" license for npm package without license field', async function () {
     const details = await getPackageDetails('not-licensed', '1.0.0');
 
+    const size = await resolveTarballSize('not-licensed', '1.0.0');
     const jamilih = {
       dependencies: {},
       license: 'Unknown',
       licenseType: 'uncategorized',
       name: 'not-licensed',
-      size: null,
+      size,
 
       // `modified` timestamp was created a few seconds after the latest version:
       //   https://registry.npmjs.org/jamilih
@@ -100,6 +102,54 @@ describe('`getPackageDetails`', function () {
     expect(details.name).to.equal('@passport-next/passport-strategy');
     expect(details.version).to.equal('1.1.0');
     expect(details.versionLoose).to.equal('1.1.0');
+  });
+
+  it('Falls back to `content-length` for a tarball host that ignores `Range`', async function () {
+    // Not every registry (e.g. some private/self-hosted ones) supports
+    //   ranged `GET`s, so this spins up a local registry stand-in whose
+    //   tarball response ignores `Range` and answers with a full `200`
+    //   (only `content-length`, no `content-range`).
+    const server = http.createServer((req, res) => {
+      if (req.url === '/range-fallback-pkg') {
+        res.setHeader('content-type', 'application/json');
+        res.end(JSON.stringify({
+          'dist-tags': {latest: '1.0.0'},
+          versions: {
+            '1.0.0': {
+              name: 'range-fallback-pkg',
+              version: '1.0.0',
+              license: 'MIT',
+              dist: {
+                tarball: `http://127.0.0.1:${server.address().port}/range-fallback-pkg.tgz`
+              }
+            }
+          }
+        }));
+        return;
+      }
+      const body = 'abc';
+      res.setHeader('content-length', String(body.length));
+      res.end(body);
+    });
+
+    await new Promise((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+
+    const {npmConfig} = CFG;
+    CFG.npmConfig = {
+      registry: `http://127.0.0.1:${server.address().port}/`
+    };
+
+    try {
+      const details = await getPackageDetails('range-fallback-pkg', '1.0.0');
+      expect(details.size).to.equal('3');
+    } finally {
+      CFG.npmConfig = npmConfig;
+      await new Promise((resolve) => {
+        server.close(resolve);
+      });
+    }
   });
 
   it('Gets details on latest version if supplied version is empty', async function () {

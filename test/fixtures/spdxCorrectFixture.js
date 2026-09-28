@@ -1,13 +1,15 @@
-import {resolvePackageVersion} from '../utils/resolvePackageVersion.js';
+import {resolvePackageVersion, resolveTarballSize} from '../utils/resolvePackageVersion.js';
 
 // `spdx-license-ids` and `spdx-exceptions` are resolved live (rather than
 //   pinned to a specific patch version) because the code under test always
 //   installs the latest version matching the semver range declared by their
 //   dependents, and that latest version changes over time as new patches
 //   are published.
-const [spdxLicenseIds, spdxExceptions] = await Promise.all([
+const [spdxLicenseIds, spdxExceptions, spdxCorrectSize, spdxExpressionParseSize] = await Promise.all([
   resolvePackageVersion('spdx-license-ids', '^3.0.0'),
-  resolvePackageVersion('spdx-exceptions', '^2.1.0')
+  resolvePackageVersion('spdx-exceptions', '^2.1.0'),
+  resolveTarballSize('spdx-correct', '3.1.1'),
+  resolveTarballSize('spdx-expression-parse', '3.0.1')
 ]);
 
 const spdxCorrectFixture = {
@@ -20,7 +22,7 @@ const spdxCorrectFixture = {
     licenseType: 'permissive',
     modified: '2020-05-22T15:38:26.796Z',
     name: 'spdx-correct',
-    size: null,
+    size: spdxCorrectSize,
     version: '3.1.1',
     versionLoose: '3.1.1'
   },
@@ -33,7 +35,7 @@ const spdxCorrectFixture = {
     licenseType: 'permissive',
     modified: '2020-05-13T16:12:46.317Z',
     name: 'spdx-expression-parse',
-    size: null,
+    size: spdxExpressionParseSize,
     version: '3.0.1',
     versionLoose: '^3.0.0'
   },
@@ -43,7 +45,7 @@ const spdxCorrectFixture = {
     licenseType: 'publicDomain',
     modified: spdxLicenseIds.modified,
     name: 'spdx-license-ids',
-    size: null,
+    size: spdxLicenseIds.size,
     version: spdxLicenseIds.version,
     versionLoose: '^3.0.0'
   },
@@ -53,7 +55,7 @@ const spdxCorrectFixture = {
     licenseType: 'permissive',
     modified: spdxExceptions.modified,
     name: 'spdx-exceptions',
-    size: null,
+    size: spdxExceptions.size,
     version: spdxExceptions.version,
     versionLoose: '^2.1.0'
   }

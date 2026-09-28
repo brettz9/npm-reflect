@@ -3,6 +3,7 @@
 ## 2.0.3
 
 - fix: inquirer `list` type issue
+- fix: resolve tarball size via ranged GET instead of HEAD
 
 ## 2.0.2
 

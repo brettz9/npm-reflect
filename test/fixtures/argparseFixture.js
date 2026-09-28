@@ -1,3 +1,11 @@
+import {resolveTarballSize} from '../utils/resolvePackageVersion.js';
+
+const [argparseSize, lodashSize, sprintfJsSize] = await Promise.all([
+  resolveTarballSize('argparse', '1.0.0'),
+  resolveTarballSize('lodash', '3.10.1'),
+  resolveTarballSize('sprintf-js', '1.0.3')
+]);
+
 const argparseFixture = {
   'argparse@1.0.0': {
     dependencies: {
@@ -8,7 +16,7 @@ const argparseFixture = {
     licenseType: 'permissive',
     modified: '2015-02-19T07:23:51.940Z',
     name: 'argparse',
-    size: null,
+    size: argparseSize,
     version: '1.0.0',
     versionLoose: '1.0.0'
   },
@@ -18,7 +26,7 @@ const argparseFixture = {
     licenseType: 'permissive',
     modified: '2015-08-04T06:05:06.887Z',
     name: 'lodash',
-    size: null,
+    size: lodashSize,
     version: '3.10.1',
     versionLoose: '^3.2.0'
   },
@@ -28,7 +36,7 @@ const argparseFixture = {
     licenseType: 'permissive',
     modified: '2015-07-10T13:41:29.308Z',
     name: 'sprintf-js',
-    size: null,
+    size: sprintfJsSize,
     version: '1.0.3',
     versionLoose: '~1.0.2'
   }

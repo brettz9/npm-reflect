@@ -15,7 +15,7 @@ const jamilihFixture = {
     licenseType: getLicenseType(jamilih.license),
     dependencies: jamilih.dependencies,
     versionLoose: '^0.63.1',
-    size: null
+    size: jamilih.size
   }
 };
 
