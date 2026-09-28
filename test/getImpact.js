@@ -125,11 +125,16 @@ not-licensed@1.0.0 (Missing), weird-license@2.0.0 (SEE LICENSE IN LICENSE)${spac
   it('Does not double-parenthesize an already-parenthesized license', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
 
+    // A made-up (non-SPDX) compound license, so it stays "uncategorized"
+    //   and, since neither branch is MIT, isn't satisfied by `jamilih`'s
+    //   existing MIT license (which a real license like `(MIT OR CC0-1.0)`
+    //   now correctly would be, since fixing `satisfies` to pass a proper
+    //   array to `spdx-satisfies`).
     const newPackages = {
-      'type-fest@4.41.0': {
-        name: 'type-fest',
-        version: '4.41.0',
-        license: '(MIT OR CC0-1.0)',
+      'weird-pkg@1.0.0': {
+        name: 'weird-pkg',
+        version: '1.0.0',
+        license: '(Custom-License OR Another-Thing)',
         licenseType: 'uncategorized',
         dependencies: {},
         size: null
@@ -139,11 +144,36 @@ not-licensed@1.0.0 (Missing), weird-license@2.0.0 (SEE LICENSE IN LICENSE)${spac
     const impact = await getImpact({}, newPackages);
 
     expect(impact).to.equal(
-      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(16)}${brightBlackFG} ${defaultFG}+100.00%${space}
-Size${space.repeat(5)}${brightBlackFG} ${defaultFG}0 B${space.repeat(14)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(3)}
-Licenses${space}${brightBlackFG} ${defaultFG}(MIT OR CC0-1.0)${space}${brightBlackFG} ${defaultFG}1${space.repeat(8)}
-Uncategorized packages:${space.repeat(14)}
-type-fest@4.41.0 (MIT OR CC0-1.0)${space.repeat(4)}`
+      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(33)}${brightBlackFG} ${defaultFG}+100.00%${space}
+Size${space.repeat(5)}${brightBlackFG} ${defaultFG}0 B${space.repeat(31)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(3)}
+Licenses${space}${brightBlackFG} ${defaultFG}(Custom-License OR Another-Thing)${space}${brightBlackFG} ${defaultFG}1${space.repeat(8)}
+Uncategorized packages:${space.repeat(31)}
+weird-pkg@1.0.0 (Custom-License OR Another-Thing)${space.repeat(5)}`
+    );
+  });
+
+  it('Excludes a compound OR license already covered by an existing simple license', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+
+    // `jamilih` (this fixture's only current dependency) is MIT-licensed,
+    //   so `(MIT OR CC0-1.0)` (as declared by `type-fest@4.41.0`) is
+    //   already satisfied by it and should not be reported as a new
+    //   license, even though the two license strings aren't identical.
+    const impact = await getImpact({}, {
+      'type-fest@4.41.0': {
+        name: 'type-fest',
+        version: '4.41.0',
+        license: '(MIT OR CC0-1.0)',
+        licenseType: 'uncategorized',
+        dependencies: {},
+        size: null
+      }
+    });
+
+    expect(impact).to.equal(
+      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(3)}${brightBlackFG} ${defaultFG}+100.00%${space}
+Size${space.repeat(5)}${brightBlackFG} ${defaultFG}0 B${space}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(3)}
+No new licenses${space.repeat(9)}`
     );
   });
 

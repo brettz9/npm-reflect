@@ -5,6 +5,7 @@
 - feat: list specific uncategorized licenses
 - fix: inquirer `list` type issue
 - fix: resolve tarball size via ranged GET instead of HEAD
+- fix: handle license types for compound-OR expressions
 
 ## 2.0.2
 
