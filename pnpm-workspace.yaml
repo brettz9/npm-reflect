@@ -1,3 +1,5 @@
 allowBuilds:
   es5-ext: false
   unrs-resolver: false
+minimumReleaseAgeExclude:
+  - license-types@3.4.0

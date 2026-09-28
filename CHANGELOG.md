@@ -9,6 +9,7 @@
 - fix: categorize compound AND license expressions
 - fix: correctly categorize licenses with multiple license-types flags
 - fix: sort impact license rows deterministically
+- chore: update `license-types`
 
 ## 2.0.2
 

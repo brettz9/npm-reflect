@@ -76,7 +76,7 @@
     "commander": "^15.0.0",
     "filesize": "^11.0.25",
     "inquirer": "^14.2.2",
-    "license-types": "^3.3.0",
+    "license-types": "^3.4.0",
     "moment": "^2.31.0",
     "node-fetch": "^3.3.2",
     "promise-queue": "^2.2.5",

@@ -24,8 +24,8 @@ importers:
         specifier: ^14.2.2
         version: 14.2.2(@types/node@26.6.3)
       license-types:
-        specifier: ^3.3.0
-        version: 3.3.0
+        specifier: ^3.4.0
+        version: 3.4.0
       moment:
         specifier: ^2.31.0
         version: 2.31.0
@@ -2258,8 +2258,8 @@ packages:
     engines: {node: '>=24.0.0'}
     hasBin: true
 
-  license-types@3.3.0:
-    resolution: {integrity: sha512-9PXUXS4Phto1ZNtvBHGwuEZSVLkDE2raE3MNwEE03tWanl8y5tLsxKS6qAgiqJ97PSgkMovt1sjZb1pFp9y5xg==}
+  license-types@3.4.0:
+    resolution: {integrity: sha512-8hJT2CGyBZW0jBloxX7J+b34efsn7fpRRbLMOdmpm66HIEda45sGdd4nAFokuMDAm0gywfEAPogbGACh4+iJOw==}
     engines: {node: '>=14'}
 
   licensee@12.0.2:
@@ -5835,7 +5835,7 @@ snapshots:
       command-line-basics: 3.0.0
       es6-template-strings: 2.0.1
       js-yaml: 5.4.2
-      license-types: 3.3.0
+      license-types: 3.4.0
       licensee: 12.0.2(supports-color@8.1.1)
       spdx-correct: 3.2.0
       spdx-expression-parse: 5.0.0
@@ -5844,7 +5844,7 @@ snapshots:
       - '@75lb/nature'
       - supports-color
 
-  license-types@3.3.0: {}
+  license-types@3.4.0: {}
 
   licensee@12.0.2(supports-color@8.1.1):
     dependencies:
