@@ -25,4 +25,27 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG}    ${brig
          ${brightBlackFG} ${defaultFG}${greenFG}Public Domain${defaultFG} ${brightBlackFG} ${defaultFG}1${space}`
     );
   });
+
+  it('Lists the specific packages with an uncategorized license', function () {
+    const packages = {
+      'a@1.0.0': {
+        name: 'a', version: '1.0.0', license: 'MIT', licenseType: 'permissive', size: 100
+      },
+      'weird@2.0.0': {
+        name: 'weird', version: '2.0.0', license: 'SEE LICENSE IN LICENSE', licenseType: 'uncategorized', size: 50
+      },
+      'nolic@1.0.0': {
+        name: 'nolic', version: '1.0.0', license: 'Unknown', licenseType: 'uncategorized', size: 10
+      }
+    };
+
+    expect(getQuickStats(packages)).to.equal(
+      `Packages${space.repeat(12)}${brightBlackFG} ${defaultFG}3${space.repeat(24)}${brightBlackFG} ${defaultFG}${space.repeat(13)}
+Size${space.repeat(16)}${brightBlackFG} ${defaultFG}160 B${space.repeat(20)}${brightBlackFG} ${defaultFG}${space.repeat(13)}
+Licenses${space.repeat(12)}${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG}${space.repeat(15)}${brightBlackFG} ${defaultFG}1${space.repeat(12)}
+${space.repeat(20)}${brightBlackFG} ${defaultFG}${brightBlackFG}Uncategorized${defaultFG}${space.repeat(12)}${brightBlackFG} ${defaultFG}2${space.repeat(12)}
+Uncategorized packages:${space.repeat(37)}
+weird@2.0.0 (SEE LICENSE IN LICENSE), nolic@1.0.0 (Missing)${space}`
+    );
+  });
 });

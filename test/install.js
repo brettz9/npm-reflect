@@ -264,6 +264,33 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     );
   });
 
+  it('Lists the specific packages with an uncategorized license', async function () {
+    process.chdir(join(__dirname, 'fixtures/uncategorized-dep'));
+    setPrompt('Details');
+    let logVal;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.log = (str) => {
+      logVal = str;
+    };
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await install('jamilih@0.54.0', {
+      test: true
+    });
+
+    expect(exitCode).to.be.undefined;
+
+    expect(logVal).to.equal(
+      `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(13)}${brightBlackFG} ${defaultFG}${space.repeat(2)}${brightBlackFG} ${defaultFG}${space}
+Size${space.repeat(5)}${brightBlackFG} ${defaultFG}344 B${space.repeat(9)}${brightBlackFG} ${defaultFG}${space.repeat(2)}${brightBlackFG} ${defaultFG}${space}
+Licenses${space}${brightBlackFG} ${defaultFG}${brightBlackFG}Uncategorized${defaultFG}${space}${brightBlackFG} ${defaultFG}1${space}${brightBlackFG} ${defaultFG}${space}
+Uncategorized packages:${space.repeat(6)}
+not-licensed@1.0.0 (Missing)${space}`
+    );
+  });
+
   it('Errs out on test mode and path not allowed', async function () {
     process.chdir(join(__dirname, 'fixtures/has-config-path-no-allowed'));
     setPrompt('Details');
