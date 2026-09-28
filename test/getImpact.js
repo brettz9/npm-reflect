@@ -30,8 +30,8 @@ describe('`getImpact`', function () {
       `Packages${space.repeat(1)}${brightBlackFG} ${defaultFG}4${space.repeat(10)}${brightBlackFG} ${defaultFG}+400.00%${space}
 Size${space.repeat(5)}${brightBlackFG} ${defaultFG}18.08 kB${space.repeat(3)}${brightBlackFG} ${defaultFG}+14.55%${space.repeat(2)}
 Licenses${space}${brightBlackFG}${space}${defaultFG}Apache-2.0${space}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
-${space.repeat(9)}${brightBlackFG} ${defaultFG}CC0-1.0${space.repeat(4)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
-${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}`
+${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
+${space.repeat(9)}${brightBlackFG} ${defaultFG}CC0-1.0${space.repeat(4)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}`
     );
   });
 
@@ -46,8 +46,8 @@ ${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brig
       `Packages${space.repeat(1)}${brightBlackFG} ${defaultFG}4${space.repeat(10)}${brightBlackFG} ${defaultFG}+400.00%${space}
 Size${space.repeat(5)}${brightBlackFG} ${defaultFG}18.08 kB${space.repeat(3)}${brightBlackFG} ${defaultFG}+14.55%${space.repeat(2)}
 Licenses${space}${brightBlackFG}${space}${defaultFG}Apache-2.0${space}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
-${space.repeat(9)}${brightBlackFG} ${defaultFG}CC0-1.0${space.repeat(4)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
-${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}`
+${space.repeat(9)}${brightBlackFG} ${defaultFG}CC-BY-3.0${space.repeat(2)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}
+${space.repeat(9)}${brightBlackFG} ${defaultFG}CC0-1.0${space.repeat(4)}${brightBlackFG}${space}${defaultFG}1${space.repeat(8)}`
     );
   });
 
@@ -115,8 +115,8 @@ not-licensed@1.0.0 (Missing)${space}`
     expect(impact).to.equal(
       `Packages${space.repeat(12)}${brightBlackFG} ${defaultFG}2${space.repeat(33)}${brightBlackFG} ${defaultFG}+200.00%${space.repeat(11)}
 Size${space.repeat(16)}${brightBlackFG} ${defaultFG}0 B${space.repeat(31)}${brightBlackFG} ${defaultFG}+0.00%${space.repeat(13)}
-Licenses${space.repeat(12)}${brightBlackFG} ${defaultFG}Unknown${space.repeat(27)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
-${space.repeat(20)}${brightBlackFG} ${defaultFG}SEE LICENSE IN LICENSE${space.repeat(12)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
+Licenses${space.repeat(12)}${brightBlackFG} ${defaultFG}SEE LICENSE IN LICENSE${space.repeat(12)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
+${space.repeat(20)}${brightBlackFG} ${defaultFG}Unknown${space.repeat(27)}${brightBlackFG} ${defaultFG}1${space.repeat(18)}
 Uncategorized packages:${space.repeat(52)}
 not-licensed@1.0.0 (Missing), weird-license@2.0.0 (SEE LICENSE IN LICENSE)${space}`
     );
