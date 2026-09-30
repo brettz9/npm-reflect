@@ -6,7 +6,7 @@ import {expect} from 'chai';
 
 import {spdxCorrectResults} from './results/spdxCorrectResults.js';
 
-import {installPackageOrLocal, promptNextAction} from '../index.js';
+import {installPackageOrLocal, promptNextAction} from '../lib/index.js';
 import {CFG} from '../lib/getPackageDetails.js';
 import getDetails from '../lib/getDetails.js';
 import getImpact from '../lib/getImpact.js';
@@ -21,11 +21,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 
 /**
- * @param {string} promptValue
+ * @param {string|string[]} promptValue
  * @returns {void}
  */
 function setPrompt (promptValue) {
-  // eslint-disable-next-line require-await -- Just need a Promise return
+  /* eslint-disable require-await -- Just need a Promise return */
+  // @ts-expect-error -- Testing: mock `inquirer.prompt` with a simplified signature
   inquirer.prompt = async ({type, name, message, choices}) => {
     expect(type).to.equal('select');
     expect(name).to.equal('next');
@@ -44,6 +45,7 @@ function setPrompt (promptValue) {
 
     return {next};
   };
+  /* eslint-enable require-await -- Done with Promise return mock */
 }
 
 describe('`index` installPackageOrLocal', function () {
@@ -68,17 +70,17 @@ describe('`index` installPackageOrLocal', function () {
 
   it('executes npm command line commands without throwing', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
-    // eslint-disable-next-line no-sparse-arrays -- Only want 2+ args
-    process.argv = [, , 'whoami'];
+    process.argv = ['', '', 'whoami'];
 
     setPrompt([`Install (${colors.bold('npm whoami')})`, 'Skip']);
     let exitCode;
 
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
 
-    await promptNextAction({}, 'jamilih@0.54.0');
+    await promptNextAction({}, 'jamilih@0.54.0', {});
 
     expect(exitCode).to.equal(0);
   });
@@ -92,18 +94,21 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (/* ...args */) => {
       throw new Error('simulating error');
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
 
+    /** @type {Error|undefined} */
     let error;
     try {
       await promptNextAction({}, 'jamilih@0.54.0', {});
     } catch (err) {
-      error = err;
+      error = /** @type {Error} */ (err);
     }
 
-    expect(error.message).to.contain('simulating error');
+    expect(error?.message).to.contain('simulating error');
     expect(exitCode).to.be.undefined;
   });
 
@@ -116,6 +121,8 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (str) => {
       val = str;
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -125,7 +132,7 @@ describe('`index` installPackageOrLocal', function () {
     //   `modified` string (relative to now) and MIT/permissive license
     //   are resolved live rather than hardcoded to avoid drift over time.
     const jamilih = await resolvePackageVersion('jamilih', '0.54.0');
-    const expected = getDetails({
+    const expected = getDetails(/** @type {import('../lib/getDetails.js').PartialPackageRecord} */ ({
       'jamilih@0.54.0': {
         modified: jamilih.modified,
         license: jamilih.license,
@@ -133,7 +140,7 @@ describe('`index` installPackageOrLocal', function () {
         size: jamilih.size,
         dependencies: jamilih.dependencies
       }
-    });
+    }));
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -148,6 +155,8 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (str) => {
       val = str;
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -157,7 +166,7 @@ describe('`index` installPackageOrLocal', function () {
     //   as `latest`, so the version, license and `modified` string are
     //   resolved live rather than hardcoded to avoid drift over time.
     const jamilih = await resolveLatestVersion('jamilih');
-    const expected = getDetails({
+    const expected = getDetails(/** @type {import('../lib/getDetails.js').PartialPackageRecord} */ ({
       [`jamilih@${jamilih.version}`]: {
         modified: jamilih.modified,
         license: jamilih.license,
@@ -165,7 +174,7 @@ describe('`index` installPackageOrLocal', function () {
         size: jamilih.size,
         dependencies: jamilih.dependencies
       }
-    });
+    }));
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -180,6 +189,8 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (str) => {
       val = str;
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -193,7 +204,7 @@ describe('`index` installPackageOrLocal', function () {
       resolvePackageVersion('@types/esprima', '4.0.3'),
       resolvePackageVersion('@types/estree', '*')
     ]);
-    const expected = getDetails({
+    const expected = getDetails(/** @type {import('../lib/getDetails.js').PartialPackageRecord} */ ({
       '@types/esprima@4.0.3': {
         modified: esprima.modified,
         license: esprima.license,
@@ -208,7 +219,7 @@ describe('`index` installPackageOrLocal', function () {
         size: estree.size,
         dependencies: {}
       }
-    });
+    }));
 
     expect(exitCode).to.equal(0);
     expect(val).to.equal(expected);
@@ -217,19 +228,22 @@ describe('`index` installPackageOrLocal', function () {
   it('Logs error if package not found (details)', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
     setPrompt('Details');
+    /** @type {{message: string}|undefined} */
     let val;
     let exitCode;
     // eslint-disable-next-line no-console -- Spy
     console.error = (obj) => {
       val = obj;
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
     await installPackageOrLocal('abadpackage@0.54.0', {});
 
     expect(exitCode).to.equal(1);
-    expect(val.message).to.equal(
+    expect(val?.message).to.equal(
       `Response is not ok  404 Not Found https://registry.npmjs.org/abadpackage`
     );
   });
@@ -242,6 +256,7 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (str) => {
       details = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -259,6 +274,8 @@ describe('`index` installPackageOrLocal', function () {
     console.log = (str) => {
       details = str;
     };
+
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -280,19 +297,22 @@ describe('`index` installPackageOrLocal', function () {
 
   it('Gives error on bad impact', async function () {
     setPrompt('Impact');
+    /** @type {Error|undefined} */
     let details;
     let exitCode;
     // eslint-disable-next-line no-console -- Spy
-    console.log = (str) => {
-      details = str;
+    console.log = (obj) => {
+      details = obj;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
 
+    // @ts-expect-error -- Bad arguments
     await promptNextAction('abadpackage@0.54.0', {});
     expect(exitCode).to.be.undefined;
-    expect(details.message).to.equal(
+    expect(details?.message).to.equal(
       `Cannot convert undefined or null to object`
     );
   });
@@ -306,12 +326,33 @@ describe('`index` installPackageOrLocal', function () {
     console.error = (obj) => {
       val = obj;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
-    await promptNextAction({}, 'jamilih@0.54.0');
+    await promptNextAction({}, 'jamilih@0.54.0', {});
 
     expect(exitCode).to.equal(0);
     expect(val).to.be.undefined;
+  });
+
+  it('Throws error if package returns null (e.g. unsupported protocol)', async function () {
+    process.chdir(join(__dirname, 'fixtures/npm-path'));
+    setPrompt('Details');
+    /** @type {Error|undefined} */
+    let val;
+    let exitCode;
+    // eslint-disable-next-line no-console -- Spy
+    console.error = (obj) => {
+      val = obj;
+    };
+    // @ts-expect-error -- Testing
+    process.exit = (code) => {
+      exitCode = code;
+    };
+    await installPackageOrLocal('abadpackage@ftp://fake.com/package.tgz', {});
+
+    expect(exitCode).to.equal(1);
+    expect(val?.message).to.equal('Package not found');
   });
 });

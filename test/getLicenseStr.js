@@ -24,6 +24,7 @@ describe('`getLicenseStr`', function () {
   });
 
   it('Gets bare type (not parenthesized) if supplied a single-item array', function () {
+    // @ts-expect-error -- `url` is intentionally extra, testing the deprecated npm license format
     expect(getLicenseStr([{type: 'MIT', url: 'https://example.com/LICENSE'}])).to.equal('MIT');
   });
 });

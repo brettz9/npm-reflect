@@ -56,7 +56,7 @@ describe('`walkDependencies`', function () {
       CFG.packageDetailsCache = {};
 
       const {exit} = process;
-      Object.defineProperty(process, 'exit', {value (val) {
+      Object.defineProperty(process, 'exit', {value (/** @type {number} */ val) {
         Object.defineProperty(process, 'exit', {value: exit});
 
         expect(val).to.equal(1);
@@ -72,7 +72,7 @@ describe('`walkDependencies`', function () {
     this.timeout(30000);
 
     const {exit} = process;
-    Object.defineProperty(process, 'exit', {value (val) {
+    Object.defineProperty(process, 'exit', {value (/** @type {number} */ val) {
       expect(val).to.equal(1);
       Object.defineProperty(process, 'exit', {value: exit});
       done();

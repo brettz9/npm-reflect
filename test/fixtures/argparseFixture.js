@@ -6,6 +6,7 @@ const [argparseSize, lodashSize, sprintfJsSize] = await Promise.all([
   resolveTarballSize('sprintf-js', '1.0.3')
 ]);
 
+/** @type {import('../../lib/getDetails.js').Packages} */
 const argparseFixture = {
   'argparse@1.0.0': {
     dependencies: {
@@ -13,7 +14,7 @@ const argparseFixture = {
       'sprintf-js': '~1.0.2'
     },
     license: 'MIT',
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: '2015-02-19T07:23:51.940Z',
     name: 'argparse',
     size: argparseSize,
@@ -23,7 +24,7 @@ const argparseFixture = {
   'lodash@3.10.1': {
     dependencies: {},
     license: 'MIT',
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: '2015-08-04T06:05:06.887Z',
     name: 'lodash',
     size: lodashSize,
@@ -33,7 +34,7 @@ const argparseFixture = {
   'sprintf-js@1.0.3': {
     dependencies: {},
     license: 'BSD-3-Clause',
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: '2015-07-10T13:41:29.308Z',
     name: 'sprintf-js',
     size: sprintfJsSize,

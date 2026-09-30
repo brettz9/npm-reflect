@@ -20,7 +20,8 @@ const {argv} = process;
  * @returns {void}
  */
 function setPrompt (promptValue) {
-  // eslint-disable-next-line require-await -- Just need a Promise return
+  /* eslint-disable require-await -- Just need a Promise return */
+  // @ts-expect-error -- Testing: mock `inquirer.prompt` with a simplified signature
   inquirer.prompt = async ({type, name, message, choices}) => {
     expect(type).to.equal('select');
     expect(name).to.equal('next');
@@ -34,6 +35,7 @@ function setPrompt (promptValue) {
 
     return {next: promptValue};
   };
+  /* eslint-enable require-await -- Done with Promise return mock */
 }
 
 describe('`install`', function () {
@@ -68,6 +70,7 @@ describe('`install`', function () {
     console.log = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -95,6 +98,7 @@ ${brightBlackFG}└────────────────${defaultFG}$
     console.log = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -110,8 +114,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
   it('executes additional npm command line commands without throwing', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
-    // eslint-disable-next-line no-sparse-arrays -- Only want 2+ args
-    process.argv = [, , 'whoami'];
+    process.argv = ['', '', 'whoami'];
 
     setPrompt(`Install (${colors.bold('npm whoami')})`);
     let val;
@@ -121,6 +124,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.log = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -137,8 +141,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
 
   it('executes additional npm command line commands without throwing (multiple args)', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-missing-deps-path'));
-    // eslint-disable-next-line no-sparse-arrays, @stylistic/array-bracket-spacing -- Ignore 0, 1 args
-    process.argv = [, ];
+    process.argv = ['', ''];
 
     setPrompt(`Install (${colors.bold('npm')})`);
     let val;
@@ -148,6 +151,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.log = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -175,18 +179,20 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
       }
       throw new Error('simulating error');
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
 
+    /** @type {Error|undefined} */
     let error;
     try {
       await install('jamilih@0.54.0', {});
     } catch (err) {
-      error = err;
+      error = /** @type {Error} */ (err);
     }
 
-    expect(error.message).to.contain('simulating error');
+    expect(error?.message).to.contain('simulating error');
     expect(exitCode).to.be.undefined;
   });
 
@@ -200,6 +206,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.error = (obj) => {
       err = obj;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -219,6 +226,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.error = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -246,6 +254,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.log = (str) => {
       logVal = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -273,6 +282,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG} ${brightB
     console.log = (str) => {
       logVal = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -300,6 +310,7 @@ not-licensed@1.0.0 (Missing)${space}`
     console.error = (str) => {
       val = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };
@@ -327,6 +338,7 @@ not-licensed@1.0.0 (Missing)${space}`
     console.log = (str) => {
       logVal = str;
     };
+    // @ts-expect-error -- Testing
     process.exit = (code) => {
       exitCode = code;
     };

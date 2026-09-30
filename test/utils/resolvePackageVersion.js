@@ -3,13 +3,29 @@ import fetch from 'node-fetch';
 import semver from 'semver';
 
 /**
+ * @typedef {{
+ *   time: Record<string, string>,
+ *   versions: Record<string, {
+ *     dist: {
+ *       tarball: string,
+ *     },
+ *     license: string,
+ *     dependencies: Record<string, string>
+ *   }>,
+ *   'dist-tags': {
+ *     latest: string
+ *   }
+ * }} PackageInfo
+ */
+
+/**
  * Fetches a package's registry metadata once.
  * @param {string} name
- * @returns {Promise<{time: object, versions: object, 'dist-tags': object}>}
+ * @returns {Promise<PackageInfo>}
  */
 async function fetchPackageInfo (name) {
   const res = await fetch(`https://registry.npmjs.org/${name}`);
-  return res.json();
+  return /** @type {PackageInfo} */ (await res.json());
 }
 
 /**
@@ -18,14 +34,18 @@ async function fetchPackageInfo (name) {
  * `content-range` (the registry's CDN omits `content-length` on `HEAD`
  * responses).
  * @param {string} tarballUrl
- * @returns {Promise<string|null>} size in bytes
+ * @returns {Promise<string>} size in bytes
  */
 async function resolveTarballSizeFromUrl (tarballUrl) {
   const r = await fetch(tarballUrl, {headers: {Range: `bytes=0-0`}});
   const contentRange = r.headers.get(`content-range`);
   const total = contentRange && contentRange.split(`/`).at(-1);
   await r.arrayBuffer();
-  return (total && total !== `*`) ? total : r.headers.get(`content-length`);
+  return (total && total !== `*`)
+    ? total
+    : /** @type {string} */ (
+      r.headers.get(`content-length`)
+    );
 }
 
 /**
@@ -33,7 +53,7 @@ async function resolveTarballSizeFromUrl (tarballUrl) {
  * (non-live) version.
  * @param {string} name
  * @param {string} version
- * @returns {Promise<string|null>} size in bytes
+ * @returns {Promise<string>} size in bytes
  */
 export async function resolveTarballSize (name, version) {
   const {versions} = await fetchPackageInfo(name);
@@ -46,7 +66,14 @@ export async function resolveTarballSize (name, version) {
  * as new versions are published upstream.
  * @param {string} name
  * @param {string} range
- * @returns {Promise<{name: string, version: string, modified: string, license: string, dependencies: object, size: string|null}>}
+ * @returns {Promise<{
+ *   name: string,
+ *   version: string,
+ *   modified: string,
+ *   license: string,
+ *   dependencies: Record<string, string>,
+ *   size: string|null
+ * }>}
  */
 export async function resolvePackageVersion (name, range) {
   const {time, versions} = await fetchPackageInfo(name);
@@ -54,6 +81,9 @@ export async function resolvePackageVersion (name, range) {
     filter((v) => semver.satisfies(v, range)).
     toSorted(semver.compare).
     at(-1);
+  if (!version) {
+    throw new Error('No version found to satisfy the range');
+  }
   const {license, dependencies = {}, dist} = versions[version];
   const size = await resolveTarballSizeFromUrl(dist.tarball);
   return {
@@ -66,7 +96,10 @@ export async function resolvePackageVersion (name, range) {
  * under test resolves an empty or over-high version selector, so fixtures
  * stay valid as new versions are published upstream.
  * @param {string} name
- * @returns {Promise<{name: string, version: string, modified: string, license: string, dependencies: object, size: string|null}>}
+ * @returns {Promise<Omit<
+ *   import('../../lib/getDetails.js').Package,
+ *   "licenseType"|"versionLoose"
+ * >>}
  */
 export async function resolveLatestVersion (name) {
   const {time, versions, 'dist-tags': distTags} = await fetchPackageInfo(name);

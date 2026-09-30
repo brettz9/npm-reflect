@@ -6,6 +6,7 @@ import getLicenseType from '../../lib/getLicenseType.js';
 //   and that changes over time as new versions are published.
 const jamilih = await resolveLatestVersion('jamilih');
 
+/** @type {import('../../lib/getDetails.js').Packages} */
 const jamilihFixture = {
   'jamilih@0.54.0': {
     name: 'jamilih',

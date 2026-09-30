@@ -99,9 +99,9 @@ describe('`getPackageDetails`', function () {
       'passport-strategy-alias', 'npm:@passport-next/passport-strategy@1.1.0'
     );
 
-    expect(details.name).to.equal('@passport-next/passport-strategy');
-    expect(details.version).to.equal('1.1.0');
-    expect(details.versionLoose).to.equal('1.1.0');
+    expect(details?.name).to.equal('@passport-next/passport-strategy');
+    expect(details?.version).to.equal('1.1.0');
+    expect(details?.versionLoose).to.equal('1.1.0');
   });
 
   it('Falls back to `content-length` for a tarball host that ignores `Range`', async function () {
@@ -112,6 +112,7 @@ describe('`getPackageDetails`', function () {
     const server = http.createServer((req, res) => {
       if (req.url === '/range-fallback-pkg') {
         res.setHeader('content-type', 'application/json');
+        const addr = /** @type {import('net').AddressInfo} */ (server.address());
         res.end(JSON.stringify({
           'dist-tags': {latest: '1.0.0'},
           versions: {
@@ -120,7 +121,7 @@ describe('`getPackageDetails`', function () {
               version: '1.0.0',
               license: 'MIT',
               dist: {
-                tarball: `http://127.0.0.1:${server.address().port}/range-fallback-pkg.tgz`
+                tarball: `http://127.0.0.1:${addr.port}/range-fallback-pkg.tgz`
               }
             }
           }
@@ -132,18 +133,19 @@ describe('`getPackageDetails`', function () {
       res.end(body);
     });
 
-    await new Promise((resolve) => {
+    await new Promise((/** @type {(value?: unknown) => void} */ resolve) => {
       server.listen(0, '127.0.0.1', resolve);
     });
 
     const {npmConfig} = CFG;
+    const addr = /** @type {import('net').AddressInfo} */ (server.address());
     CFG.npmConfig = {
-      registry: `http://127.0.0.1:${server.address().port}/`
+      registry: `http://127.0.0.1:${addr.port}/`
     };
 
     try {
       const details = await getPackageDetails('range-fallback-pkg', '1.0.0');
-      expect(details.size).to.equal('3');
+      expect(details?.size).to.equal('3');
     } finally {
       CFG.npmConfig = npmConfig;
       await new Promise((resolve) => {

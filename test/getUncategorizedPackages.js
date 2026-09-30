@@ -3,6 +3,7 @@ import getUncategorizedPackages from '../lib/getUncategorizedPackages.js';
 
 describe('`getUncategorizedPackages`', function () {
   it('Lists only packages whose licenseType is "uncategorized"', function () {
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const packages = {
       'a@1.0.0': {
         name: 'a', version: '1.0.0', license: 'MIT', licenseType: 'permissive'
@@ -22,6 +23,7 @@ describe('`getUncategorizedPackages`', function () {
   });
 
   it('Returns an empty array when none are uncategorized', function () {
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const packages = {
       'a@1.0.0': {
         name: 'a', version: '1.0.0', license: 'MIT', licenseType: 'permissive'

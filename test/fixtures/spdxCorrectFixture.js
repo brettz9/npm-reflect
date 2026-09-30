@@ -12,6 +12,7 @@ const [spdxLicenseIds, spdxExceptions, spdxCorrectSize, spdxExpressionParseSize]
   resolveTarballSize('spdx-expression-parse', '3.0.1')
 ]);
 
+/** @type {import('../../lib/getDetails.js').Packages} */
 const spdxCorrectFixture = {
   'spdx-correct@3.1.1': {
     dependencies: {
@@ -19,10 +20,10 @@ const spdxCorrectFixture = {
       'spdx-license-ids': '^3.0.0'
     },
     license: 'Apache-2.0',
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: '2020-05-22T15:38:26.796Z',
     name: 'spdx-correct',
-    size: spdxCorrectSize,
+    size: /** @type {string} */ (spdxCorrectSize),
     version: '3.1.1',
     versionLoose: '3.1.1'
   },
@@ -32,30 +33,30 @@ const spdxCorrectFixture = {
       'spdx-license-ids': '^3.0.0'
     },
     license: 'MIT',
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: '2020-05-13T16:12:46.317Z',
     name: 'spdx-expression-parse',
-    size: spdxExpressionParseSize,
+    size: /** @type {string} */ (spdxExpressionParseSize),
     version: '3.0.1',
     versionLoose: '^3.0.0'
   },
   [`spdx-license-ids@${spdxLicenseIds.version}`]: {
     dependencies: {},
     license: spdxLicenseIds.license,
-    licenseType: 'publicDomain',
+    licenseType: /** @type {const} */ ('publicDomain'),
     modified: spdxLicenseIds.modified,
     name: 'spdx-license-ids',
-    size: spdxLicenseIds.size,
+    size: /** @type {string} */ (spdxLicenseIds.size),
     version: spdxLicenseIds.version,
     versionLoose: '^3.0.0'
   },
   [`spdx-exceptions@${spdxExceptions.version}`]: {
     dependencies: {},
     license: spdxExceptions.license,
-    licenseType: 'permissive',
+    licenseType: /** @type {const} */ ('permissive'),
     modified: spdxExceptions.modified,
     name: 'spdx-exceptions',
-    size: spdxExceptions.size,
+    size: /** @type {string} */ (spdxExceptions.size),
     version: spdxExceptions.version,
     versionLoose: '^2.1.0'
   }

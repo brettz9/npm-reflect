@@ -66,6 +66,7 @@ No new licenses${space.repeat(7)}`
   it('Lists affected packages for uncategorized licenses', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
 
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const newPackages = {
       'not-licensed@1.0.0': {
         name: 'not-licensed',
@@ -91,6 +92,7 @@ not-licensed@1.0.0 (Missing)${space}`
   it('Groups uncategorized packages from different licenses into one section', async function () {
     process.chdir(join(__dirname, 'fixtures/npm-path'));
 
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const newPackages = {
       'not-licensed@1.0.0': {
         name: 'not-licensed',
@@ -130,6 +132,7 @@ not-licensed@1.0.0 (Missing), weird-license@2.0.0 (SEE LICENSE IN LICENSE)${spac
     //   existing MIT license (which a real license like `(MIT OR CC0-1.0)`
     //   now correctly would be, since fixing `satisfies` to pass a proper
     //   array to `spdx-satisfies`).
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const newPackages = {
       'weird-pkg@1.0.0': {
         name: 'weird-pkg',
@@ -159,7 +162,7 @@ weird-pkg@1.0.0 (Custom-License OR Another-Thing)${space.repeat(5)}`
     //   so `(MIT OR CC0-1.0)` (as declared by `type-fest@4.41.0`) is
     //   already satisfied by it and should not be reported as a new
     //   license, even though the two license strings aren't identical.
-    const impact = await getImpact({}, {
+    const impact = await getImpact({}, /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */ ({
       'type-fest@4.41.0': {
         name: 'type-fest',
         version: '4.41.0',
@@ -168,7 +171,7 @@ weird-pkg@1.0.0 (Custom-License OR Another-Thing)${space.repeat(5)}`
         dependencies: {},
         size: null
       }
-    });
+    }));
 
     expect(impact).to.equal(
       `Packages${space}${brightBlackFG} ${defaultFG}1${space.repeat(3)}${brightBlackFG} ${defaultFG}+100.00%${space}
@@ -179,40 +182,43 @@ No new licenses${space.repeat(9)}`
 
   it('Throws upon missing dependencies', async function () {
     process.chdir(join(__dirname, 'fixtures/missing-deps-path'));
+    /** @type {Error|undefined} */
     let error;
     try {
       await getImpact({}, spdxCorrectFixture);
     } catch (err) {
-      error = err;
+      error = /** @type {Error} */ (err);
     }
 
     expect(error).to.be.an('Error');
-    expect(error.message).to.equal('Local package has no dependencies');
+    expect(error?.message).to.equal('Local package has no dependencies');
   });
 
   it('Throws upon missing dependencies and unused devDependencies', async function () {
     process.chdir(join(__dirname, 'fixtures/devDeps-only-path'));
+    /** @type {Error|undefined} */
     let error;
     try {
       await getImpact({}, spdxCorrectFixture);
     } catch (err) {
-      error = err;
+      error = /** @type {Error} */ (err);
     }
 
     expect(error).to.be.an('Error');
-    expect(error.message).to.equal('Local package has no dependencies');
+    expect(error?.message).to.equal('Local package has no dependencies');
   });
 
   it('Throws upon empty dependencies', async function () {
     process.chdir(join(__dirname, 'fixtures/empty-deps-path'));
+    /** @type {Error|undefined} */
     let error;
     try {
       await getImpact({}, spdxCorrectFixture);
     } catch (err) {
-      error = err;
+      error = /** @type {Error} */ (err);
     }
 
     expect(error).to.be.an('Error');
-    expect(error.message).to.equal('Local package has no dependencies');
+    expect(error?.message).to.equal('Local package has no dependencies');
   });
 });

@@ -1,5 +1,9 @@
 # CHANGES for `npm-reflect`
 
+## 2.2.0
+
+- feat: TypeScript
+
 ## 2.1.0
 
 - feat: list specific uncategorized licenses

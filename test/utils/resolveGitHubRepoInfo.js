@@ -4,6 +4,10 @@ import fetch from 'node-fetch';
 // GitHub's unauthenticated API is rate-limited to 60 requests/hour, and
 //   several tests ask about the same repo, so results are cached per
 //   `owner/repo` for the life of the test run instead of refetched.
+
+/**
+ * @type {Record<string, Promise<{size: number, modified: string}>>}
+ */
 const cache = {};
 
 /**
@@ -18,7 +22,11 @@ export default function resolveGitHubRepoInfo (owner, repo) {
   const key = `${owner}/${repo}`;
   cache[key] ||= (async () => {
     const res = await fetch(`https://api.github.com/repos/${key}`);
-    const {size: sizeKb, updated_at: modified} = await res.json();
+    const {size: sizeKb, updated_at: modified} =
+      /**
+       * @type {{size: number, updated_at: string}}
+       */
+      (await res.json());
     return {size: sizeKb * 1024, modified};
   })();
   return cache[key];

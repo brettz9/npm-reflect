@@ -27,6 +27,7 @@ Licenses ${brightBlackFG} ${defaultFG}${greenFG}Permissive${defaultFG}    ${brig
   });
 
   it('Lists the specific packages with an uncategorized license', function () {
+    /** @type {import('../lib/calculateImpactPackages.js').PartialPackages} */
     const packages = {
       'a@1.0.0': {
         name: 'a', version: '1.0.0', license: 'MIT', licenseType: 'permissive', size: 100

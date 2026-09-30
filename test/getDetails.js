@@ -9,4 +9,18 @@ describe('`getDetails`', function () {
     const details = getDetails(spdxCorrectFixture);
     expect(details).to.equal(spdxCorrectResults);
   });
+
+  it('Handles undefined dependencies and size', function () {
+    const details = getDetails({
+      'test-pkg@1.0.0': {
+        name: 'test-pkg',
+        version: '1.0.0',
+        modified: '2020-05-22T15:38:26.796Z',
+        license: 'MIT',
+        licenseType: 'permissive'
+      }
+    });
+    expect(typeof details).to.equal('string');
+    expect(details).to.include('0 B');
+  });
 });

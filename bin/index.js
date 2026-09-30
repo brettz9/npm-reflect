@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-import {readFileSync} from 'node:fs';
 import {program} from 'commander';
-import {installPackageOrLocal} from '../index.js';
-
-const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
+import {installPackageOrLocal} from '../lib/index.js';
+import packageJson from '../package.json' with {type: 'json'};
 
 program.version(packageJson.version);
 program.description(packageJson.description);

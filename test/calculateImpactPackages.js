@@ -68,11 +68,24 @@ describe('`calculateImpactPackages`', function () {
     }, {
       ...spdxCorrectFixture,
       'spdx-exceptions@1.0.0': {
-        name: 'spdx-exceptions'
+        name: 'spdx-exceptions',
+        version: '1.0.0'
       }
     });
     expect(impact).to.deep.equal({
       'lodash@3.10.1': lodashPackage
     });
+  });
+
+  it('Falls back to string comparison if versions are not semver', function () {
+    const newPackages = {
+      'lodash@c': {name: 'lodash', version: 'c'}
+    };
+    const currentPackages = {
+      'lodash@b': {name: 'lodash', version: 'b'},
+      'lodash@a': {name: 'lodash', version: 'a'}
+    };
+    const impact = calculateImpactPackages(newPackages, currentPackages);
+    expect(impact).to.deep.equal(newPackages);
   });
 });

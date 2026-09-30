@@ -33,7 +33,7 @@ describe('`findPrefix`', function () {
         done(err);
         return;
       }
-      expect(basename(path)).to.equal('npm-reflect');
+      expect(basename(/** @type {string} */ (path))).to.equal('npm-reflect');
       done();
     });
   });
@@ -50,7 +50,7 @@ describe('`findPrefix`', function () {
         done(err);
         return;
       }
-      expect(basename(path)).to.equal('C:\\');
+      expect(basename(/** @type {string} */ (path))).to.equal('C:\\');
       Object.defineProperty(process, 'platform', {value: platform});
       pth.resolve = resolve;
       done();
